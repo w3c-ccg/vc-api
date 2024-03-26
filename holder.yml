@@ -244,31 +244,29 @@ paths:
           description: Internal Error
         "501":
           description: Not Implemented
-
-  /presentations/prove:
     post:
-      summary: Proves a presentation and returns it in the response body.
+      summary: Creates a presentation and returns it in the response body.
       tags:
        - Presentations
       security:
        - networkAuth: []
        - oAuth2: []
        - zCap: []
-      operationId: provePresentation
-      description: Proves a presentation and returns it in the response body.
+      operationId: createPresentation
+      description: Creates a presentation and returns it in the response body.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProvePresentationRequest"
-        description: Parameters for proving the presentation.
+              $ref: "#/components/schemas/CreatePresentationRequest"
+        description: Parameters for creating the presentation.
       responses:
         "201":
-          description: Presentation successfully proved!
+          description: Presentation successfully created!
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProvePresentationResponse"
+                $ref: "#/components/schemas/CreatePresentationResponse"
         "400":
           description: invalid input!
         "500":
@@ -492,14 +490,14 @@ components:
           $ref: "./components/DeriveCredentialOptions.yml#/components/schemas/DeriveCredentialOptions"
     DeriveCredentialResponse:
       $ref: "./components/VerifiableCredential.yml#/components/schemas/VerifiableCredential"
-    ProvePresentationRequest:
+    CreatePresentationRequest:
       type: object
       properties:
         presentation:
           $ref: "./components/Presentation.yml#/components/schemas/Presentation"
         options:
           $ref: "./components/PresentCredentialOptions.yml#/components/schemas/PresentCredentialOptions"
-    ProvePresentationResponse:
+    CreatePresentationResponse:
       type: object
       properties:
         verifiablePresentation:
