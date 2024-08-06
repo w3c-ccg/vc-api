@@ -841,65 +841,6 @@ The instance should create a challenge for use during verification, and track th
 
     </section>
 
-    <section>
-      <h3>Workflows and Exchanges</h3>
-      <p>
-The following APIs are defined for using workflows and exchanges for credential use cases that require crossing trust boundaries:
-      </p>
-
-      <table class="simple api-summary-table"
-        data-api-path="/workflows /workflows/{localWorkflowId} /workflows/{localWorkflowId}/exchanges /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></table>
-    
-      <section>
-        <h4>Create Workflow</h4>
-        <p>
-        </p>
-
-        <div class="api-detail"
-          data-api-endpoint="post /workflows"></div>
-      </section>
-
-      <section>
-        <h4>Get Workflow Configuration</h4>
-        <p>
-        </p>
-
-        <div class="api-detail"
-          data-api-endpoint="get /workflows/{localWorkflowId}"></div>
-      </section>
-      <p>
-There is a `ttl` or time-to-live property associated with exchanges created using the /workflows/{localWorkflowId}/exchanges
-endpoint. This impacts the lifetime of challenges associated with such an exchange: if a
-challenge is bound to an exchange, the lifetime of that challenge is the `ttl` of the exchange.
-      </p>
-      <section>
-        <h4>Create Exchange</h4>
-        <p>
-        </p>
-
-        <div class="api-detail"
-          data-api-endpoint="post /workflows/{localWorkflowId}/exchanges"></div>
-      </section>
-
-      <section>
-        <h4>Participate in an Exchange</h4>
-        <p>
-        </p>
-
-        <div class="api-detail"
-          data-api-endpoint="post /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></div>
-      </section>
-
-      <section>
-        <h4>Get Exchange State</h4>
-        <p>
-        </p>
-
-        <div class="api-detail"
-          data-api-endpoint="get /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></div>
-      </section>
-
-    </section>
 
     <section>
       <h3>Presenting</h3>
@@ -968,24 +909,67 @@ the exchange discovery endpoint.
         <div class="api-detail"
           data-api-endpoint="get /presentations/{id}"></div>
       </section>
+    </section>
 
+
+    <section>
+      <h3>Workflows and Exchanges</h3>
+      <p>
+The following APIs are defined for using workflows and exchanges for credential use cases that require crossing trust boundaries:
+      </p>
+
+      <table class="simple api-summary-table"
+        data-api-path="/workflows /workflows/{localWorkflowId} /workflows/{localWorkflowId}/exchanges /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></table>
+    
       <section>
-        <h4>Initiate Exchange</h4>
+        <h4>Create Workflow</h4>
         <p>
         </p>
 
         <div class="api-detail"
-          data-api-endpoint="post /exchanges/{exchange-id}"></div>
+          data-api-endpoint="post /workflows"></div>
       </section>
 
       <section>
-        <h4>Continue Exchange</h4>
+        <h4>Get Workflow Configuration</h4>
         <p>
         </p>
 
         <div class="api-detail"
-          data-api-endpoint="post /exchanges/{exchange-id}/{transaction-id}"></div>
+          data-api-endpoint="get /workflows/{localWorkflowId}"></div>
       </section>
+      <p>
+There is a `ttl` or time-to-live property associated with exchanges created using the /workflows/{localWorkflowId}/exchanges
+endpoint. This impacts the lifetime of challenges associated with such an exchange: if a
+challenge is bound to an exchange, the lifetime of that challenge is the `ttl` of the exchange.
+      </p>
+      <section>
+        <h4>Create Exchange</h4>
+        <p>
+        </p>
+
+        <div class="api-detail"
+          data-api-endpoint="post /workflows/{localWorkflowId}/exchanges"></div>
+      </section>
+
+      <section>
+        <h4>Participate in an Exchange</h4>
+        <p>
+        </p>
+
+        <div class="api-detail"
+          data-api-endpoint="post /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></div>
+      </section>
+
+      <section>
+        <h4>Get Exchange State</h4>
+        <p>
+        </p>
+
+        <div class="api-detail"
+          data-api-endpoint="get /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></div>
+      </section>
+
 
       <section>
         <h4>Exchange Examples</h4>
@@ -1035,11 +1019,11 @@ sequenceDiagram
     autonumber
     Note right of H: Start exchange
     W->>I: Initiate
-    Note right of W: POST /exchanges/123 - HTTP request to start exchange (e.g., send credentials, get credentials)
+    Note right of W: POST /workflows/123/exchanges/123 - HTTP request to start exchange (e.g., send credentials, get credentials)
     I->>W: Verifiable Presentation Request (VPR)
     Note left of I: VPR includes method of interaction, for purposes of exchange
     W->>I: Verifiable Presentation (VP)
-    Note right of W: POST /exchanges/123/session-abc - sent via interaction mechanism to meet requirements of exchange
+    Note right of W: POST /workflows/123/exchanges/123/session-abc - sent via interaction mechanism to meet requirements of exchange
     I->>W: Verifiable Presentation
     Note left of I: VP includes result of exchange (e.g., VCs), or VPR with new interaction request, or error description
           </pre>
@@ -1056,190 +1040,6 @@ above is used to provide guidance on whether the next step is automated or
 requires an individual to intervene.
         </p>
 
-        <p>
-The following example demonstrates a fully automated flow for performing a
-Verifiable Credential refresh that follows the generic flow mentioned above:
-        </p>
-
-        <pre class="example"
-          title="Step 1 (request to issuer): Initiate degree refresh exchange">
-POST /exchanges/refresh-degree HTTP/1.1
-Host: example.edu
-Content-Type: application/json
-Accept: application/json, */*
-Accept-Encoding: gzip, deflate
-        </pre>
-
-        <pre class="example"
-          title="Step 2 (response from issuer): Verifiable Presentation Request">
-HTTP/1.1 201 Created
-Date: Fri, 14 Jun 2022 18:37:12 GMT
-Connection: keep-alive
-
-{
-  "verifiablePresentationRequest": {
-    "query": [{
-        "type": "DIDAuthentication"
-      }, {
-        "type": "QueryByExample",
-        "credentialQuery": {
-          "reason": "We need to see your existing University Degree credential.",
-          "example": {
-            "@context": [
-              "https://www.w3.org/2018/credentials/v1",
-              "https://www.w3.org/2018/credentials/examples/v1"
-            ],
-            "type": "UniversityDegreeCredential"
-          }
-        }
-      }],
-      "challenge": "3182bdea-63d9-11ea-b6de-3b7c1404d57f",
-      "domain": "example.edu",
-      "interact": {
-        "service": [{
-          "type": "UnmediatedPresentationService2021",
-          "serviceEndpoint": "https://example.edu/exchanges/refresh-degree/0bc42ece-89f7-11ec-9af0-136dfa9e4dbb"
-        }]
-      }
-    }
-  }
-}
-        </pre>
-
-        <p class="note" title="Interact service description">
-Readers are urged to pay particular attention to the `interact` service
-description that provides a mechanism to switch between automated flows and
-ones requiring mediation by a person.
-        </p>
-
-        <p class="note">
-While the example above utilizes a Verifiable Presentation Request, other types
-of equivalent presentation request formats, such as WACI/PeX, can be utilized
-(simultaneously or alternatively) based on the presentation request formats that
-are supported by the Issuer. Automated requests can be signalled by setting  the
-service `type` to `UnmediatedPresentationService2021`, while manual  requests
-can be signalled by setting the service `type` to
-`MediatedPresentationService2021`.
-        </p>
-
-        <pre class="example"
-          title="Step 3 (presentation to issuer): Provide Verifiable Presentation">
-POST /exchanges/refresh-degree/0bc42ece-89f7-11ec-9af0-136dfa9e4dbb HTTP/1.1
-Host: example.edu
-Content-Type: application/json
-Accept: application/json, */*
-Accept-Encoding: gzip, deflate
-
-{
-  "verifiablePresentation": {
-    "@context": [
-      "https://www.w3.org/2018/credentials/v1",
-      "https://www.w3.org/2018/credentials/examples/v1",
-      "https://w3id.org/security/suites/ed25519-2020/v1"
-    ],
-    "type": ["VerifiablePresentation"],
-    "holder": "did:example:ebfeb1f712ebc6f1c276e12ec21",
-    "verifiableCredential": [{
-      "@context": [
-        "https://www.w3.org/2018/credentials/v1",
-        "https://www.w3.org/2018/credentials/examples/v1",
-        "https://w3id.org/security/suites/ed25519-2020/v1"
-      ],
-      "id": "http://example.edu/credentials/3732",
-      "type": [
-        "VerifiableCredential",
-        "UniversityDegreeCredential"
-      ],
-      "issuer": "https://example.edu/issuers/14",
-      "issuanceDate": "2010-01-01T19:23:24Z",
-      "expirationDate": "2022-01-01T19:23:24Z",
-      "credentialSubject": {
-        "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
-        "degree": {
-          "type": "BachelorDegree",
-          "name": "Bachelor of Science and Arts"
-        }
-      },
-      "refreshService": {
-        "type": "AutoRefresh2021",
-        "url": "https://example.edu/exchanges/refresh-degree",
-        "validAfter": "2021-09-01T19:23:24Z"
-      },
-      "proof": {
-        "type": "Ed25519Signature2020",
-        "created": "2021-12-05T17:59:45Z",
-        "verificationMethod": "https://example.edu/issuers/14#key-1",
-        "proofPurpose": "assertionMethod",
-        "proofValue": "z2aArNcQKX9aqYK7GRZmV7c9xfGuwB5YAXhkYY9DTvLdTCQEsXaNpz1G
-                       ZL9XDXdFQGT27WB68e2Y3wo9k75rka8oo"
-      }
-    }],
-    "proof": {
-      "type": "Ed25519Signature2020",
-      "created": "2022-06-15T16:37:12Z",
-      "verificationMethod": "did:example:76e12ec712ebc6f1c221ebfeb1f#key-1",
-      "proofPurpose": "authentication",
-      "challenge": "3182bdea-63d9-11ea-b6de-3b7c1404d57f",
-      "domain": "example.edu",
-      "proofValue": "z4aU6NSpnCvnjJqzAPw3cqJ1LKoWimEWxKz7StJYzwaZE2a3QAuK8vcq
-                     umwr6uabr7RshvjH1yTv1fTuhPUii1fN"
-    }
-  }
-}
-        </pre>
-
-        <pre class="example"
-          title="Step 4 (response from issuer): Re-issued Verifiable Credential">
-HTTP/1.1 200 OK
-Date: Fri, 14 Jun 2022 18:37:12 GMT
-Connection: keep-alive
-
-{
-  "verifiablePresentation": {
-    "@context": [
-      "https://www.w3.org/2018/credentials/v1",
-      "https://www.w3.org/2018/credentials/examples/v1"
-    ],
-    "type": ["VerifiablePresentation"],
-    "verifiableCredential": [{
-      "@context": [
-        "https://www.w3.org/2018/credentials/v1",
-        "https://www.w3.org/2018/credentials/examples/v1",
-        "https://w3id.org/security/suites/ed25519-2020/v1"
-      ],
-      "id": "http://example.edu/credentials/3732",
-      "type": [
-        "VerifiableCredential",
-        "UniversityDegreeCredential"
-      ],
-      "issuer": "https://example.edu/issuers/14",
-      "issuanceDate": "2010-01-01T19:23:24Z",
-      "expirationDate": "2027-06-14T18:37:12Z",
-      "credentialSubject": {
-        "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
-        "degree": {
-          "type": "BachelorDegree",
-          "name": "Bachelor of Science and Arts"
-        }
-      },
-      "refreshService": {
-        "type": "AutoRefresh2021",
-        "url": "https://example.edu/exchanges/refresh-degree",
-        "validAfter": "2027-03-14T19:23:24Z",
-        "validUntil": "2027-07-14T19:23:24Z"
-      },
-      "proof": {
-        "type": "Ed25519Signature2020",
-        "created": "2022-06-14T18:37:12Z",
-        "verificationMethod": "https://example.edu/issuers/14#key-1",
-        "proofPurpose": "assertionMethod",
-        "proofValue": "z2aArNcQKX9aqYK7GRZmV7c9xfGuwB5YAXhkYY9DTvLdTCQEsXaNpz1G
-                       ZL9XDXdFQGT27WB68e2Y3wo9k75rka8oo"
-      }
-    }]
-  }
-}
-        </pre>
       </section>
     </section>
 
