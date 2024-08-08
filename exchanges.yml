@@ -217,17 +217,57 @@ components:
                     type: string
                   template:
                       type: string
-            workflowId:
+            id:
               type: string
-              description: the ID that will be used for the created workflow. workflowId is OPTIONAL.
+              description: The ID that will be used for the created workflow. Passing an ID is OPTIONAL.
     CreateWorkflowResponse:
       type: object
       additionalProperties: false
-      description: Object containing information about a created workflow.
+      description: Response containing the created workflowData Object.
       properties:
-        workflowId:
-          type: string
-          description: The URL that uniquely identifies the created workflow.
+        workflowData:
+          type: object
+          additionalProperties: false
+          description: Object containing information about a created workflow.
+          properties:
+            id:
+              type: string
+              description: The URL that uniquely identifies the created workflow.
+            stepInformation:
+              type: object
+              description: Information about the steps required for the workflow. Returning stepInformation is REQUIRED.
+              properties:
+                steps:
+                  type: object
+                  description: One or more steps required to complete an exchange on the workflow.
+                  properties:
+                    stepName:
+                      type: object
+                      description: The name of the step.
+                      properties:
+                        step:
+                          $ref: "#/components/schemas/WorkflowStep"
+                initialStep:
+                  type: string
+                  description: The step from the above set that the exchange starts on.
+            controller:
+              type: string
+              description: The controller of the instance. Returning controller is OPTIONAL.
+            authorization:
+              type: object
+              description: Authorization scheme information (e.g., OAuth2 configuration). Returning authorization is OPTIONAL.
+            credentialTemplates:
+              type: array
+              description: One or more VC templates for issuance. Returning credentialTemplates is OPTIONAL.
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: The type of template.
+                  template:
+                    type: string
+                    description: The template itself.
     GetWorkflowResponse:
       type: object
       additionalProperties: false
