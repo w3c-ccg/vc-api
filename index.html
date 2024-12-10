@@ -691,6 +691,20 @@ properties in order to prevent clients from passing certain data to that instanc
 Likewise, an instance configuration MAY require that clients include some `options`
 properties.
       </p>
+      <h4>Options Extensibility</h4>
+      <p>
+Implementations may extend an `options` object with additional properties.
+Property keys may be any string but they should be appropriately namespaced (for example by using URIs)
+in order to avoid collisions with extensions in other implementations.
+      </p>
+      <p>
+As extension properties are implementation specific, they should not be mandatory.
+This is to maintain interoperability by avoiding clients needing to be modified to use a specific implementation.
+      </p>
+      <p>
+When adding an extension `options` property, consider if providing optionality to clients is necessary.
+If not, using instance configuration to vary API functionality may be a preferable approach.
+      </p>
     </section>
     <section>
       <h3>Content Serialization</h3>
