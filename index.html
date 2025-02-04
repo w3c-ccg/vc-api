@@ -60,7 +60,7 @@
 
     // extend the bibliography entries
     localBiblio: ccg.localBiblio,
-    xref: "web-platform",
+    xref: ["web-platform", "infra"],
     github: {
       repoURL: "https://github.com/w3c-ccg/vc-api/",
       branch: "main"
@@ -1272,65 +1272,128 @@ requires an individual to intervene.
     <section>
       <h3>Error Handling</h3>
       <p>
-        Error handling and messaging in the VC-API aligns with Problem Details for HTTP APIs [[RFC9457]].
-        Implementers SHOULD include a status and a title in the error response body
-        relating to the specifics of the endpoint on which the error occurs.
+When an implementation detects an anomaly while processing a document, a
+<dfn>ProblemDetails</dfn> object can be used to report the issue to other
+software systems. The interface for these objects follow [[RFC9457]]
+to encode the data. A [=ProblemDetails=] [=map=] consists of the following
+properties:
+      </p>
+
+      <dl>
+        <dt>type</dt>
+        <dd>
+The `type` [=map/key=] MUST be present and its value MUST be a [=URL=]
+identifying the type of problem.
+        </dd>
+        <dt>title</dt>
+        <dd>
+The `title` [=map/key=] SHOULD provide a short but specific human-readable
+string for the problem.
+        </dd>
+        <dt>detail</dt>
+        <dd>
+The `detail` [=map/key=] SHOULD provide a longer human-readable string for the
+problem.
+        </dd>
+      </dl>
+
       <p>
+Leveraging [=keys=] such as `detail`, and `instance` is encouraged, to
+provide more contextual feedback about the error, while being conscious of
+security concerns and hence not disclosing sensitive information.
+      </p>
+
       <p>
-        Aligning on error handling and messaging will greatly improve test-suites accuracy
-        when identifying technical friction impacting interoperability.
+The following problem description types are defined by this specification:
       </p>
-      </p>
-        Leveraging other fields such as detail, instance and type is encouraged,
-        to provide more contextual feedback about the error,
-        while being conscious of security concerns and hence not disclosing sensitive information.
-      </p>
+
+      <dl>
+        <dt id="UNKNOWN_OPTION_PROVIDED">
+https://www.w3.org/TR/vc-api#UNKNOWN_OPTION_PROVIDED
+        </dt>
+        <dd>
+An option that is unknown to the implementation was provided to the API call.
+        </dd>
+      </dl>
+
       <p>
-        Implementers should handle all server errors to the best of their capabilities.
-        Endpoints should avoid returning improperly handled 500 errors in production
-        environments, as these may lead to information disclosure.
+Further lists of [=ProblemDetails=] that might be reported by implementations
+can be found in the following specifications:
       </p>
-      <h4>Relationship between verification, validation and error handling</h4>
+
+      <ul>
+        <li>
+<a data-cite="VC-DATA-MODEL-2.0#problem-details">
+Section 7.2: Problem Details</a> in the [[[VC-DATA-MODEL-2.0]]] specification.
+        </li>
+        <li>
+<a data-cite="VC-DATA-INTEGRITY#processing-errors">
+Section 4.7: Processing Errors</a> in the [[[VC-DATA-INTEGRITY]]] specification.
+        </li>
+        <li>
+<a data-cite="VC-DATA-INTEGRITY#processing-errors">
+Section 3.5: Processing Errors</a> in the [[[VC-BITSTRING-STATUS-LIST]]]
+specification.
+        </li>
+      </ul>
+
+      <pre class="example" title="An example of a ProblemDetails object">
+{
+  "type": "https://www.w3.org/TR/vc-data-model#CRYPTOGRAPHIC_SECURITY_ERROR",
+  "status": 400,
+  "title": "CRYPTOGRAPHIC_SECURITY_ERROR",
+  "detail": "The cryptographic security mechanism couldn't be verified. This is likely due to a malformed proof or an invalid verificationMethod."
+}
+      </pre>
+
+      <p class="issue">
+The example `type` URLs above will work in the future after VCDM v2.0 becomes a
+global standard. To ensure the error links to the appropriate location, you can
+replace the base URL of `https://www.w3.org/TR/vc-data-model` with
+`www.w3.org/TR/vc-data-model-2.0` for the time being.
+      </p>
+
+      <p class="advisement" title="Sanitize error details in production">
+Implementers are strongly advised to sanitize all server errors in production
+environments, as not doing so can lead to information disclosure.
+      </p>
+
       <p>
-        It is recommended to avoid raising errors while performing verification,
-        and instead gather ProblemDetails objects to include in the verification results.
+It is recommended to avoid raising errors while performing verification, and
+instead gather ProblemDetails objects to include in the verification results.
       </p>
-      <h4>Types of ProblemDetails</h4>
-        An implementer can refer to the [[VC-DATA-MODEL-2.0]] and the [[VC-BITSTRING-STATUS-LIST]] for currently defined ProblemDetails types.
-        <p class="issue">
-          The example `type` URLs will work in the future after VCDM v2.0 becomes a global standard.
-          To ensure the error links to the appropriate location, you can replace the base URL of
-          `https://www.w3.org/TR/vc-data-model` with `www.w3.org/TR/vc-data-model-2.0` for the time being.
+
+      <section>
+        <h3>Verification Errors vs. Warnings</h3>
+
+        <p>
+This specification defines a distinction between a verification error vs. a
+verification warning. Errors are `ProblemDetails` relating to cryptography,
+data model, and malformed context and are unrecoverable. Warnings are
+`ProblemDetails` relating to statuses and validity periods and might be
+recoverable or where the subsequent action is at the discretion of the
+application.
         </p>
-        <pre class="example"
-          title="ProblemDetails">
-          {
-            "type": "https://www.w3.org/TR/vc-data-model#CRYPTOGRAPHIC_SECURITY_ERROR",
-            "status": 400,
-            "title": "CRYPTOGRAPHIC_SECURITY_ERROR",
-            "detail": "The cryptographic security mechanism couldn't be verified. This is likely due to a malformed proof or an invalid verificationMethod."
-          }
-        </pre>
-      <h4>Verification Response</h4>
-        <h5>Errors and Warnings</h5>
-        Errors are `ProblemDetails` relating to cryptography, data model, and malformed context.
-        Warnings are `ProblemDetails` relating to statuses and validity periods.
 
-        If an error is included, the `verified` property of the `VerificationResponse` object
-        MUST be set to `false`; if no errors are included, it MUST be set to `true`.
+        <p>
+If an error is included, the `verified` property of the `VerificationResponse`
+object MUST be set to `false`; if no errors are included, it MUST be set to
+`true`.
+        </p>
 
-        <pre class="example"
-          title="Verification Response">
-          {
-            "verified": false,
-            "document": verifiableCredential,
-            "mediaType": "application/vc",
-            "controller": issuer,
-            "controllerDocument": didDocument,
-            "warnings": [ProblemDetails],
-            "errors": [ProblemDetails]
-          }
+        <pre class="example" title="An example verification response containing warnings and errors.">
+{
+  "verified": false,
+  "document": verifiableCredential,
+  "mediaType": "application/vc",
+  "controller": issuer,
+  "controllerDocument": didDocument,
+  "warnings": [ProblemDetails],
+  "errors": [ProblemDetails]
+}
         </pre>
+
+      </section>
     </section>
 
   </section>
