@@ -671,16 +671,36 @@ Other authorization mechanisms that support delegation might be defined in the f
     <section>
       <h3>Service Instances</h3>
       <p>
-Service configuration is determined by administrators on per instance basis.
-Instance configuration can include, but is not limited to, credential format, key options, credential status mechanisms, and/or credential templates.
-Administrators are expected to configure service instances such that `options` included in client requests cannot result in incorrect action or problematic responses by the service.
+The APIs defined in this specification presume that they are attached to a
+specific instance of some kind with an associated configuration that has been
+put in place by a systems administrator. When a client calls an endpoint on a
+particular instance, the instance uses the configuration and options provided by
+the client to execute the action.
       </p>
       <p>
-A coordinator instance can have access to multiple service instances in order to support different use cases.
-Runtime discovery of service instance configuration is not supported by the VC API as services are expected to be known by the coordinator at the time of coordinator deployment.
+For example, the `/credentials/issue` endpoint is expected to be at the end of a
+longer URL such as `/instances/12345/credentials/issue`. In this case, it is the
+instance that is configured to know which cryptographic key to use for issuance,
+whether or not a status list is involved, the type of credential to issue, the
+credential format, and what additional options are possible on the endpoint.
+      </p>
+      <p>
+Software clients that call a particular instance might not have the capability
+to configure an instance, or be aware of the setup that the administrator did on
+the instance. Administration endpoints for configuring instances could be
+provided by implementations but are not necessary to expose as HTTP APIs;
+configuration can also be done through configuration files or graphical
+interfaces.
+      </p>
+      <p class="note"
+         title="Use cases can use multiple instances for complex flows">
+A coordinator instance can have access to multiple service instances in order to
+support different use cases. Runtime discovery of service instance configuration
+is not supported by the VC API as services are expected to be known by the
+coordinator at the time of coordinator deployment.
       </p>
     </section>
-    <section>
+        <section>
       <h3>Options</h3>
       <p>
 Some of the endpoints defined in the following sections accept an `options` object.
