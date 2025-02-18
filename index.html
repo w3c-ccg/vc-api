@@ -740,6 +740,12 @@ Many of the endpoints defined in the following sections receive data and options
 Implementations MUST throw an error if an endpoint receives data, options, or option values that it
 does not understand or know how to process.
       </p>
+      <h4>Payload Sizes</h4>
+      <p>Implementations are encouraged to pay attention to the payload sizes of the Verifiable Credentials they issue.</p>
+      <p>Presentations can bundle a large volume of credentials, resulting in a higher request size than anticipated. This heightens the risk of interoperability issues.</p>
+      <p>A default maximum size of 10MB per Verifiable Credential is recommended as an interoperability baseline, with the possibility of configuring a larger size if required. The configuration should be detailed at an instance level.
+        This also accounts for the 16MB size limit of most document-based storage database solutions.</p>
+      <p>By default, large binary values should be linked to and a hash included (unless there is a privacy reason for not doing so).</p>
     </section>
     <section>
       <h3>API Component Overview</h3>
@@ -1553,6 +1559,11 @@ Given the scenarios above, implementers are advised to allow the system actions
 that occur after a delete to be configurable, such that system flexibility is
 sufficient to address any <a>verifiable credential</a> use case.
       </p>
+    </section>
+
+    <section>
+      <h3>Payload Sizes</h3>
+      <p>Larger transactions can trigger DoS incidents. It's recommended to configure the payload size accepted by endpoints at an instance level.</p>
     </section>
 
   </section>
