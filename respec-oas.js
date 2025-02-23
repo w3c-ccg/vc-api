@@ -87,42 +87,49 @@ function buildEndpointDetails({config, document, apis}) {
 
     // schema for endpoint
     if(endpoint.requestBody) {
-      const requestSchema =
-        endpoint.requestBody.content['application/json'].schema.properties ||
-        endpoint.requestBody.content['application/json'].schema;
+      const contentTypes = Object.keys(endpoint.requestBody.content);
 
-      const schemaSummary = document.createElement('p');
-      if(requestSchema.anyOf) {
-        schemaSummary.innerHTML = `The ${path} endpoint uses any of ` +
-        `the following schemas when receiving a `;
-      } else {
-        schemaSummary.innerHTML = `The ${path} endpoint uses ` +
-        `the following schema when receiving a `;
-      }
-      schemaSummary.innerHTML += `${verb.toUpperCase()}:`;
-      section.appendChild(schemaSummary);
+      for(const contentType of contentTypes) {
+        const requestSchema =
+          endpoint.requestBody.content[contentType].schema.properties ||
+          endpoint.requestBody.content[contentType].schema;
 
-      let requestSchemaHtml = document.createElement('p');
-      if(requestSchema) {
+        const schemaSummary = document.createElement('p');
         if(requestSchema.anyOf) {
-          for(const i in requestSchema.anyOf) {
-            const anySchema = requestSchema.anyOf[i];
-            requestSchemaHtml = renderJsonSchema(anySchema.properties || anySchema);
-            section.appendChild(requestSchemaHtml);
-            if(i + 1 < requestSchema.anyOf.length) {
-              const nextSchemaSummary = document.createElement('p');
-              nextSchemaSummary.innerHTML = `Alternatively, the ${path} ` +
-              `endpoint can also use the following schema:`;
-              section.appendChild(nextSchemaSummary);
+          schemaSummary.innerHTML += `The ${path} endpoint uses any of ` +
+          `the following schemas when receiving a `;
+        } else {
+          schemaSummary.innerHTML += `The ${path} endpoint uses ` +
+          `the following schema when receiving a `;
+        }
+        schemaSummary.innerHTML += `${verb.toUpperCase()} `;
+        schemaSummary.innerHTML += `with content-type header ` +
+          `set to ${contentType}:`;
+        section.appendChild(schemaSummary);
+
+        let requestSchemaHtml = document.createElement('p');
+        if(requestSchema) {
+          if(requestSchema.anyOf) {
+            for(const i in requestSchema.anyOf) {
+              const anySchema = requestSchema.anyOf[i];
+              const schema = anySchema.properties || anySchema;
+              requestSchemaHtml = renderJsonSchema(schema);
+              section.appendChild(requestSchemaHtml);
+              if(i + 1 < requestSchema.anyOf.length) {
+                const nextSchemaSummary = document.createElement('p');
+                nextSchemaSummary.innerHTML = `Alternatively, the ${path} ` +
+                `endpoint can also use the following schema:`;
+                section.appendChild(nextSchemaSummary);
+              }
             }
+          } else {
+            requestSchemaHtml = renderJsonSchema(requestSchema);
+            section.appendChild(requestSchemaHtml);
           }
         } else {
-          requestSchemaHtml = renderJsonSchema(requestSchema);
+          requestSchemaHtml.innerHTML = 'RENDERING ERROR'; // default
           section.appendChild(requestSchemaHtml);
         }
-      } else {
-        requestSchemaHtml.innerHTML = 'RENDERING ERROR'; // default
-        section.appendChild(requestSchemaHtml);
       }
     }
 
