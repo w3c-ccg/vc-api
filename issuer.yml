@@ -53,13 +53,13 @@ paths:
         - oAuth2: []
         - zCap: []
       operationId: updateCredentialStatus
-      x-expectedCaller: "Verifier Service"
+      x-expectedCaller: "Issuer Service"
       description: Updates the status of an issued credential.
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateCredentialStatus"
+              $ref: "#/components/schemas/UpdateCredentialStatusRequest"
         description: Parameters for updating the status of the issued credential.
       responses:
         "200":
