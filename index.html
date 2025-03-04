@@ -452,9 +452,14 @@ timeliness of the VC; leaving the Verifier Coordinator to finish Applying any bu
         <p>
         The Status Service provides a privacy-preserving means for publishing
         and checking the status of any Verifiable Credentials issued by the
-        Issuer. Verifier services use the Issuer's status endpoint (as
-        specified in each revocable verifiable credential) to check the
-        timeliness of a given VC as part of verification.
+        Issuer. Verifier services SHOULD NOT contact the Issuer's status 
+        endpoint to check status information and SHOULD get that status 
+        information from the holder.
+        </p>
+        <p>
+          For specific mechanisms by which to manage Verifiable Credential statuses, 
+          it's recommended to refer to external well known specifications, such as the 
+          [[VC-BITSTRING-STATUS-LIST]].
         </p>
       </section>
       <section>
