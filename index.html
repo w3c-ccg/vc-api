@@ -286,6 +286,18 @@ the base API platform.
           </tr>
         </tbody>
       </table>
+
+
+      <section>
+        <h3>Design Guidelines</h3>
+        <p>
+          The [[design-principles]] guidelines were used as a basis for the specification, 
+          specifically the use of the 'controller' style from the guidelines 
+          was used for endpoints. [[json-schema]] is used to define the acceptable 
+          inputs to the APIs.
+        </p>
+      </section>
+
     </section>
 
     <section class="informative">
@@ -1564,6 +1576,23 @@ sufficient to address any <a>verifiable credential</a> use case.
     <section>
       <h3>Payload Sizes</h3>
       <p>Larger transactions can trigger DoS incidents. It's recommended to configure the payload size accepted by endpoints at an instance level.</p>
+    </section>
+
+    <section>
+      <h3>Additional Validation</h3>
+      <p>
+        In most cases, simply verifying the proof might not be sufficient to properly handle the recieved data.
+        Verifier services are expected to configure additional validation steps based on their use cases. To define such
+        additional validations, implementers can refer to specifications such as the [[VC-DATA-INTEGRITY]] 
+        where further information can be found about context handling and integrity verification.
+      </p>
+      <p>
+        Improper validation will often lead to security vulnerabilities.
+      </p>
+      <p>
+        Additional validation steps can be accounted for when returning a verification response object, 
+        through the problem details.
+      </p>
     </section>
 
   </section>
