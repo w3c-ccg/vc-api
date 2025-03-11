@@ -72,7 +72,7 @@ paths:
           description: Internal Error
   /workflows/{localWorkflowId}/exchanges:
     post:
-      summary: Creates a new exchange and returns exchangeId and time to live in the response body.
+      summary: Creates a new exchange and returns exchange metadata in the response body.
       tags:
         - Credentials
       security:
@@ -80,7 +80,7 @@ paths:
         - oAuth2: []
         - zCap: []
       operationId: createExchange
-      description: Creates a new exchange and returns exchangeId and time to live in the response body.
+      description: Creates a new exchange and returns exchange metadata in the response body.
       x-expectedCaller: Owner Coordinator
       parameters:
         - $ref: "./components/parameters/path/LocalWorkflowId.yml"
@@ -317,33 +317,37 @@ components:
       additionalProperties: false
       description: Object containing information about a created exchange.
       properties:
-        exchangeId:
-          type: string
-          description: The URL that uniquely identifies the exchange.
-        sequence:
-          type: string
-          description: A sequence number for the exchange. Set to "0" on creation.
-        ttl:
-          type: string
-          description: The time to live for the created exchange.
-        variables:
-          type: array
-          description: Template variables to be used in the exchange.
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                description: The type of template.
-              template:
-                type: string
-                description: The template itself.
-        state:
-          type: string
-          description: The status ("pending" | "complete" | "invalid") of the exchange, set to "pending" on creation.
-        step:
-          type: string
-          description: The semantic string ID for the current step.
+        exchange:
+          type: object
+          description: The created exchange.
+          properties:
+            id:
+              type: string
+              description: The URL that uniquely identifies the exchange.
+            sequence:
+              type: string
+              description: A sequence number for the exchange. Set to "0" on creation.
+            ttl:
+              type: string
+              description: The time to live for the created exchange.
+            variables:
+              type: array
+              description: Template variables to be used in the exchange.
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: The type of template.
+                  template:
+                    type: string
+                    description: The template itself.
+            state:
+              type: string
+              description: The status ("pending" | "complete" | "invalid") of the exchange, set to "pending" on creation.
+            step:
+              type: string
+              description: The semantic string ID for the current step.
     ExchangeParticipationResponse:
       type: object
       description: Either what the exchange is expecting next or a result of the exchange.
@@ -373,6 +377,9 @@ components:
             id:
               type: string
               description: The local exchange ID that identifies the exchange.
+            sequence:
+              type: string
+              description: A sequence number for the exchange. Set to "0" on creation.
             ttl:
               type: string
               description: The time to live for the exchange.
