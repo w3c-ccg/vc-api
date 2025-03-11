@@ -377,6 +377,9 @@ components:
             id:
               type: string
               description: The local exchange ID that identifies the exchange.
+            sequence:
+              type: string
+              description: A sequence number for the exchange. Set to "0" on creation.
             ttl:
               type: string
               description: The time to live for the exchange.
