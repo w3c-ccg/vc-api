@@ -52,7 +52,14 @@
     pluralize: true,
 
     // extend the bibliography entries
-    localBiblio: {},
+    localBiblio: {
+      "ISO18004": {
+        title: "ISO18004:2024: QR Code Bar Code Symbology Specification",
+        href: "https://www.iso.org/standard/83389.html",
+        status: "Published",
+        publisher: "ISO"
+      }
+    },
     xref: ["web-platform", "infra", "vc-data-model-2.0"],
     github: {
       repoURL: "https://github.com/w3c-ccg/vc-api/",
@@ -78,6 +85,10 @@
     };
   </script>
   <style>
+code {
+  color: rgb(199, 73, 0);
+  font-weight: bold;
+}
 pre {
   overflow-x: auto;
   white-space: pre-wrap;
@@ -1035,10 +1046,11 @@ the exchange discovery endpoint.
     <section>
       <h3>Workflows and Exchanges</h3>
       <p>
-A VC API workflow defines a particular set of steps for exchanging verifiable
-credentials between two parties across a trust boundary. Each step can involve
-the issuance, verification, transmission, or presentation of verifiable
-credentials. Examples of VC API workflows include, but are not limited to:
+A VC API <dfn>workflow</dfn> defines a particular set of steps for exchanging
+verifiable credentials between two parties across a trust boundary. Each step
+can involve the issuance, verification, transmission, or presentation of
+verifiable credentials. Examples of VC API workflows include, but are not
+limited to:
       </p>
       <ul class="bullet">
         <li>
@@ -1058,28 +1070,28 @@ Receipt of one or more newly-issued single-use proof of age credentials.
       </ul>
       <p>
 Workflow instances are expected to be created by administrators, for use with,
-for example, coordinator websites. A workflow instance is created by performing
-an HTTP POST to the workflow service's `/workflows` endpoint. The HTTP request
-body includes the configuration for the workflow instance. This includes, but
-is not limited to, information about the steps that define the workflow and any
-credential templates that will be used to issue verifiable credentials. The
-steps that define the workflow might also be templates, enabling additional
-flexibility. If a workflow involves the issuance of verifiable credentials, or
-the verification of presentations or credentials, then the workflow instance
-configuration can include authorization capabilities to use one or more VC API
-issuer and/or verification services.
+for example, coordinator websites. A workflow instance is created by
+performing an HTTP POST to the workflow service's `/workflows` endpoint. The
+HTTP request body includes the configuration for the workflow instance. This
+includes, but is not limited to, information about the steps that define the
+workflow and any credential templates that will be used to issue verifiable
+credentials. The steps that define the workflow might also be templates,
+enabling additional flexibility. If a workflow involves the issuance of
+verifiable credentials, or the verification of presentations or credentials,
+then the workflow instance configuration can include authorization capabilities
+to use one or more VC API issuer and/or verification services.
       </p>
       <p>
 Once a workflow instance exists, authorization to create and query particular
 workflow interactions, called VC API exchanges, can be given to coordinators.
       </p>
       <p>
-A VC API exchange represents a particular interaction based on a given VC API
-workflow. The interaction will take place between an exchange client and the
-workflow service. Exchanges are expected to be transitory, only existing as
-long as the interaction takes to complete. The workflow service stores state
-information about each exchange such as whether the exchange is pending,
-active, or complete, as well as the current step in the workflow, any
+A VC API <dfn>exchange</dfn> represents a particular interaction based on a
+given VC API workflow. The interaction will take place between an exchange
+client and the workflow service. Exchanges are expected to be transitory, only
+existing as long as the interaction takes to complete. The workflow service
+stores state information about each exchange, such as whether the exchange is
+pending, active, or complete, as well as the current step in the workflow, any
 workflow-specific variables and data, and any verifiable presentations and
 credentials received while the exchange executes. While there is no technical
 limitation on the number of steps in a workflow, implementers might want to use
@@ -1353,6 +1365,199 @@ requires an individual to intervene.
         </p>
 
       </section>
+    </section>
+
+    <section>
+      <h3>Initiating Interactions</h3>
+      <p>
+It is useful for an implementation to communicate how to start interacting with
+it to another implementation. This bootstrapping process is called
+<em>initiating an <dfn>interaction</dfn></em>, and communicates what protocols
+each implementation supports as well as how to start a particular interaction
+with the implementation.
+      </p>
+      <p>
+A high-level overview of a Holder initiating an interaction using a QR Code and
+a VC API Exchange is shown below:
+      </p>
+      <figure>
+        <pre class="mermaid">
+sequenceDiagram
+  participant H as Holder
+  participant W as Holder Coordinator (Wallet)
+  participant V as Verifier Coordinator
+  autonumber
+  H->>W: Tap "Share credential"
+  W->>W: Generate Interaction URL
+  W->>W: Display QR Code
+  H->>V: Present QR Code
+  V->>V: Scan QR Code and decode URL
+  V->>W: Get available interaction protocols
+  Note left of V: GET &lt;https://wallet.example/interactions/&lt;interactionId>?wi_api=&lt;api_version>
+  W->>V: Return interaction protocols
+  Note left of V: (VC API, OID4, NFC, Bluetooth, etc.)
+  V->>V: Select appropriate protocol
+  V->>W: Transmit protocol selection and options
+  W->>H: Request consent to proceed
+  Note right of H: "Open browser to verifier.example?"
+  H->>W: Confirm consent start exchange
+  W->>V: Start exchange
+        </pre>
+        <figcaption>
+A Holder-initiated exchange using a QR Code
+        </figcaption>
+      </figure>
+
+      <p class="note" title="Multiple interaction initiation variations are possible">
+While the example above is a [=holder=]-initiated interaction, [=issuers=] and
+[=verifiers=] are also capable of initiating an interaction. Similarly, while
+the transmission of the interaction URL here is performed via a QR Code
+(optical medium), an interaction URL can also be transmitted over NFC or
+Bluetooth (wireless medium).
+      </p>
+
+      <section>
+        <h4>Interaction URL Format</h4>
+        <p>
+The format of the <dfn>interaction URL</dfn> MUST conform to the syntax for the
+[[[URL]]] and contain an `iuv` query parameter encoding the interaction URL
+version number, which MUST be `1`. The interaction URL SHOULD be an HTTPS URL
+that contains a transaction-specific interaction identifier. The URL SHOULD be
+opaque and require no URL syntax processing before it is fetched by the
+receiving system. An example of such a URL is shown below:
+        </p>
+
+        <pre class="example nohighlight" title="An interaction URL">
+https://app.example/interactions/z8n38Dp7a?iuv=1
+        </pre>
+      </section>
+
+      <section>
+        <h4>Interaction QR Code Format</h4>
+        <p>
+An <dfn>interaction QR Code</dfn> MUST be an [=interaction URL=]
+expressed as a QR code according to [[[ISO18004]]]. To ensure broad
+interoperability, the length of the [=interaction URL=] SHOULD be as short as
+possible, SHOULD NOT exceed 400 alphanumeric characters, and MUST NOT exceed
+4,296 alphanumeric characters. An example of an interaction QR code can be found
+below:
+        </p>
+
+        <figure id="roles">
+          <img style="margin: auto; width: 33%; display: block;"
+         src="./diagrams/interaction-qr-code.png"
+         alt="A square image filled with black and white dots that is encoding
+a interaction URL">
+          <figcaption style="text-align: center;">
+An interaction QR code for `https://app.example/interactions/z8n38Dp7a?iuv=1`
+          </figcaption>
+        </figure>
+
+      </section>
+
+      <section>
+        <h4>Interaction Protocols Response</h4>
+        <p>
+Performing a retrieval of the [=interaction URL=] results in instructions
+on how to start an interaction with the remote system.
+        </p>
+
+        <p>
+When the [=interaction URL=] is fetched using an `Accept` header of
+`application/json`, a single JSON object containing a `protocols` [=map=] MUST
+be returned where each [=map/key=] is a protocol identifier and each
+[=map/value=] is a URL that can be used to initiate the interaction. For
+example, performing an HTTP GET on the
+`https://app.example/interactions/z8n38Dp7a?iuv=1` [=interaction URL=] might
+result in the following response:
+        </p>
+
+        <pre class="example nohighlight" title="A list of protocols supported for a given interaction">
+{
+  "protocols": {
+    "website": "https://app.example/redirects/z8j3kfk2lQ",
+    "vc-api": "https://app.example/workflows/123/exchanges/987",
+    "oid4vp": "openid4vp://?client_id=https%3A%2F%2Fapp.example%2Fworkflows%2F123%2Fexchanges%2F987%2Fopenid%2Fclient%2Fauthorization%2Fresponse&request_uri=https%3A%2F%2Fapp.example%2Fworkflows%2F123%2Fexchanges%2F987%2Fopenid%2Fclient%2Fauthorization%2Frequest'"
+  }
+}
+        </pre>
+
+        <p>
+When the [=interaction URL=] is fetched using any unrecognized `Accept` header,
+a `text/html` document MUST be returned with directions instructing a human
+being to use specific software that understands how to process interaction URLs.
+        </p>
+
+        <p class="note" title="Mapping to exchange URLs">
+Some coordinator implementations will implement the protocols endpoint as a pass
+through to a protocols endpoint for an exchange instance. For example, a GET on
+`https://app.example/interactions/z8n38Dp7a?iuv=1` will result in a pass-through
+GET on `https://app.example/workflows/123/instances/987/protocols`, which would
+return the response above. Implementing interaction URLs in this way can
+provide an easier implementation path.
+        </p>
+
+      </section>
+
+      <section>
+        <h4>`website` Interaction Protocol</h4>
+        <p>
+The `website` interaction protocol is used by a local system to signal to the
+remote system that it would like to redirect the remote system to a specific
+URL, such as a website where an individual can engage in a use-case specific
+interaction. If the `website` interaction protocol is selected, the local
+system sends data using an HTTP POST to instruct the remote system where to
+send the individual. An example of the POST data is shown below:
+        </p>
+
+        <pre class="example nohighlight" title="A website interaction protocol redirect request">
+{
+  "url": "https://website.example/transactions/8372974",
+  "purpose": "Checkout at ShopCo",
+  "referenceId": "417bcaf2-14d9-11f0-99d7-9f094678517b"
+}
+        </pre>
+
+      </section>
+
+      <section>
+        <h4>`vc-api` Interaction Protocol</h4>
+        <p>
+The `vc-api` interaction protocol is used to initiate a specific [=exchange=]
+as described in Section [[[#participate-in-an-exchange]]].
+        </p>
+
+        <pre class="example nohighlight" title="A VC-API interaction protocol request">
+{
+  "verifiablePresentationRequest": {
+    "query": [{
+      "type": "QueryByExample",
+      "credentialQuery": [{
+        "reason": "Please provide your student ID.",
+        "example": {
+          "@context": [
+            "https://www.w3.org/ns/credentials/v2",
+            "https://www.w3.org/ns/credentials/examples/v2",
+          ],
+          "type": "StudentIdCredential",
+          "credentialSubject": {
+            "studentId": ""
+          },
+        },
+        "trustedIssuer": [{
+          "required": true,
+          "issuer": "did:web:university.example"
+        }]
+      }]
+    }],
+    "challenge": "5e34826e-14da-11f0-98a5-8b1c0a196728",
+    "domain": "university.example"
+  }
+}
+        </pre>
+
+      </section>
+
     </section>
 
     <section>
