@@ -261,24 +261,15 @@ components:
       type: object
       description: Object containing information about the exchange to be created.
       properties:
-        exchangeInformation:
+        expires:
+          type: string
+          description: The date and time (as specified by ISO 8601) that the exchange expires.
+        variables:
           type: object
-          properties:
-            ttl:
-              type: string
-              description: Time to live for the exchange (ms).
-            variables:
-              type: array
-              description: Template variables to be used in the exchange.
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    description: The type of template.
-                  template:
-                    type: string
-                    description: The template itself.
+          description: Template variables to be used in the exchange.
+        openId:
+          type: object
+          description: Optional parameters to enable OID4* protocol for delivery.
     ExchangeParticipationResponse:
       type: object
       description: Either what the exchange is expecting next or a result of the exchange.
@@ -307,9 +298,9 @@ components:
         sequence:
           type: number
           description: A sequence number for the exchange. Set to 0 on creation.
-        ttl:
+        expires:
           type: string
-          description: The time to live for the exchange.
+          description: The date and time (as specified by ISO 8601) that the exchange expires.
         step:
           type: string
           description: The current step in the exchange.

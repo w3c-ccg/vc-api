@@ -1089,7 +1089,7 @@ a default maximum number of steps to prevent bugs.
 An issuer, verifier, or holder coordinator is responsible for creating
 exchanges. The coordinator creates an exchange by performing an HTTP POST to
 the `/exchanges` subpath of a chosen workflow, on the workflow service. The
-HTTP request body includes a time-to-live (TTL) for the exchange and any
+HTTP request body includes an expiration date and time for the exchange and any
 variables to be used to populate the workflow's templates for the particular
 exchange. The request body can also include configuration options to enable the
 exchange to be executed using additional protocols beyond VC API. Once the
@@ -1251,9 +1251,9 @@ while a `localExchangeId` or `localWorkflowId` refers to a specific element in t
           data-api-endpoint="get /workflows/{localWorkflowId}"></div>
       </section>
       <p>
-There is a `ttl` or time-to-live property associated with exchanges created using the /workflows/{localWorkflowId}/exchanges
+There is an `expires` property associated with exchanges, denoting the expiration date and time of the exchange. It is created using the /workflows/{localWorkflowId}/exchanges
 endpoint. This impacts the lifetime of challenges associated with such an exchange: if a
-challenge is bound to an exchange, the lifetime of that challenge is the `ttl` of the exchange.
+challenge is bound to an exchange, that challenge ceases to be valid at the date referenced by the `expires` property of the exchange.
       </p>
       <section>
         <h4>Create Exchange</h4>
