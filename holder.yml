@@ -68,46 +68,6 @@ paths:
           description: Credential not found
         "410":
           description: Gone! There is no data here
-  /credentials:
-    get:
-      tags:
-       - Credentials
-      security:
-       - networkAuth: []
-       - oAuth2: []
-       - zCap: []
-      summary: Gets list of credentials or verifiable credentials
-      operationId: getCredentials
-      x-expectedCaller: "Holder Coordinator or Issuer Coordinator"
-      parameters:
-        - in: query
-          name: type
-          schema:
-            type: array
-            items:
-              type: string
-              pattern: "(credentials|verifiablecredentials|all)"
-      responses:
-        "200":
-          description: Credentials retrieved
-          content:
-            application/json:
-              schema:
-                type: object
-                description: The Credentials
-                properties:
-                  results:
-                    type: array
-                    items:
-                      anyOf:
-                        - $ref: "./components/VerifiableCredential.yml#/components/schemas/VerifiableCredential"
-                        - $ref: "./components/EnvelopedVerifiableCredential.yml#/components/schemas/EnvelopedVerifiableCredential"
-        "400":
-          description: Bad Request
-        "401":
-          description: Not Authorized
-        "410":
-          description: Gone! There is no data here
   /credentials/derive:
     post:
       tags:
