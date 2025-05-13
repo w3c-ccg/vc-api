@@ -882,16 +882,31 @@ The following APIs are defined for issuing a Verifiable Credential:
       <section>
         <h4>Issue Credential</h4>
         <p>
+This endpoint is used to attach one or more proofs to a
+[=verifiable credential=].
         </p>
 
         <p class="note" title="Issued credential media types">
-          An `EnvelopedVerifiableCredential` can be returned in the `IssueCredentialSuccess` response
-          in order to issue credentials with a media type other than `application/vc`,
-          such as `application/vc+sd-jwt`.
+An `EnvelopedVerifiableCredential` can be returned in the
+`IssueCredentialSuccess` response in order to issue credentials with a media
+type other than `application/vc`, such as `application/vc+sd-jwt`.
         </p>
 
         <div class="api-detail"
           data-api-endpoint="post /credentials/issue"></div>
+
+        <p>
+If a use case requires an issuing instance to attach multiple proofs to the
+provided `credential`, an issuing instance SHOULD attach all proofs during a
+single call to the `/credentials/issue` endpoint.
+        </p>
+        <p>
+If a provided `credential` already contains one or more proofs,
+an issuing instance SHOULD append its proofs to the list of existing proofs
+provided by the caller, converting a single proof value to an array of
+proof values if necessary. An issuing instance MAY be configured to return an
+error if `credential` values that contain existing `proof` values are provided.
+        </p>
       </section>
 
       <section>
