@@ -886,9 +886,9 @@ This endpoint is used to issue a [=verifiable credential=].
         </p>
 
         <p class="note" title="Issued credential media types">
-An `EnvelopedVerifiableCredential` can be returned in the
-`IssueCredentialSuccess` response in order to issue credentials with a media
-type other than `application/vc`, such as `application/vc+sd-jwt`.
+An `EnvelopedVerifiableCredential` can be returned in the response in order to
+issue credentials with a media type other than `application/vc`, such as
+`application/mdoc` or `application/vc+sd-jwt`.
         </p>
 
         <div class="api-detail"
@@ -896,7 +896,7 @@ type other than `application/vc`, such as `application/vc+sd-jwt`.
 
         <p>
 If a use case requires an issuing instance to attach multiple proofs to the
-provided `credential`, it MUST attach all of these proofs with a single call 
+provided `credential`, it MUST attach all of these proofs with a single call
 to the `/credentials/issue` endpoint.
         </p>
         <p>

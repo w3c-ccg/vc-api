@@ -87,9 +87,9 @@ components:
           required: ['type', 'statusPurpose']
           additionalProperties: false
           properties:
-            id: 
+            id:
               type: string
-            type: 
+            type:
               type: string
             statusPurpose:
               type: string
@@ -119,5 +119,5 @@ components:
     IssueCredentialResponse:
       type: object
       properties:
-        IssueCredentialSuccess:
-          $ref: "./components/IssueCredentialSuccess.yml#/components/schemas/IssueCredentialSuccess"
+        IssueCredentialResponse:
+          $ref: "./components/VerifiableCredentialResponse.yml#/components/schemas/VerifiableCredentialResponse"
