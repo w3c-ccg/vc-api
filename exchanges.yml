@@ -206,8 +206,16 @@ components:
           type: string
           description: The controller of the instance. Passing controller is OPTIONAL.
         authorization:
-          type: string
+          type: object
           description: Authorization scheme information (e.g., OAuth2 configuration). Passing authorization is OPTIONAL.
+          properties:
+            oauth2:
+              type: object
+              description: OAuth2 configuration.
+              properties:
+                issuerConfigUrl:
+                  type: string
+                  description: OAuth2 issuer config URL.
         credentialTemplates:
           type: array
           description: One or more VC templates for issuance. Passing credentialTemplates is OPTIONAL.
@@ -245,6 +253,14 @@ components:
         authorization:
           type: object
           description: Authorization scheme information (e.g., OAuth2 configuration). Returning authorization is OPTIONAL.
+          properties:
+            oauth2:
+              type: object
+              description: OAuth2 configuration.
+              properties:
+                issuerConfigUrl:
+                  type: string
+                  description: OAuth2 issuer config URL.
         credentialTemplates:
           type: array
           description: One or more VC templates for issuance. Returning credentialTemplates is OPTIONAL.
