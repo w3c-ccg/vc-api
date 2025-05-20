@@ -12,9 +12,9 @@ info:
 paths:
 components:
   schemas:
-    DataIntegrityProof:
+    DataIntegrityProofWithChallenge:
       type: object
-      description: A Data Integrity Proof as defined by the W3C VC Data Integrity specification.
+      description: A Data Integrity Proof that includes a challenge and a domain as defined by the W3C VC Data Integrity specification.
       properties:
         type:
           type: string
@@ -25,6 +25,12 @@ components:
         created:
           type: string
           description: Date the proof was created.
+        challenge:
+          type: string
+          description: A value chosen by the verifier to mitigate authentication proof replay attacks.
+        domain:
+          type: string
+          description: The domain of the proof to restrict its use to a particular target.
         nonce:
           type: string
           description: A value chosen by the creator of a proof to randomize proof values for privacy purposes.
@@ -42,7 +48,9 @@ components:
           "type": "DataIntegrityProof",
           "cryptosuite": "ecdsa-rdfc-2019",
           "created": "2024-01-11T19:14:04Z",
-          "verificationMethod": "https://di.example/issuer#zDnaepBuvsQ8cpsWrVKw8fbpGpvPeNSjVPTWoq6cRqaYzBKVP",
-          "proofPurpose": "assertionMethod",
+          "domain": "domain.example",
+          "challenge": "ce2e12b0-35a0-11f0-85df-7bcb79038e44",
+          "verificationMethod": "https://di.example/holder#zDnadqAtcdP6agfXsTWu5darHnbGyTDkKGFYmn8dQraYzCJMZ",
+          "proofPurpose": "authentication",
           "proofValue": "zXb23ZkdakfJNUhiTEdwyE598X7RLrkjnXEADLQZ7vZyUGXX8cyJZRBkNw813SGsJHWrcpo4Y8hRJ7adYn35Eetq"
         }

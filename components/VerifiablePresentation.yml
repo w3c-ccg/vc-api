@@ -20,7 +20,7 @@ components:
         - type: object
           properties:
             proof:
-              $ref: "./DataIntegrityProof.yml#/components/schemas/DataIntegrityProof"
+              $ref: "./DataIntegrityProofWithChallenge.yml#/components/schemas/DataIntegrityProofWithChallenge"
       example:
         {
           "@context":
