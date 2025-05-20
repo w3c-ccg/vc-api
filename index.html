@@ -882,8 +882,7 @@ The following APIs are defined for issuing a Verifiable Credential:
       <section>
         <h4>Issue Credential</h4>
         <p>
-This endpoint is used to attach one or more proofs to a
-[=verifiable credential=].
+This endpoint is used to issue a [=verifiable credential=].
         </p>
 
         <p class="note" title="Issued credential media types">
@@ -897,8 +896,8 @@ type other than `application/vc`, such as `application/vc+sd-jwt`.
 
         <p>
 If a use case requires an issuing instance to attach multiple proofs to the
-provided `credential`, an issuing instance SHOULD attach all proofs during a
-single call to the `/credentials/issue` endpoint.
+provided `credential`, it MUST attach all of these proofs with a single call 
+to the `/credentials/issue` endpoint.
         </p>
         <p>
 If a provided `credential` already contains one or more proofs,
