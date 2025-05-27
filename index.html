@@ -1113,7 +1113,12 @@ interaction with it is returned to the coordinator.
       </p>
       <p>
 The exchange URL is given to the exchange client so that it can initiate the
-exchange. Initiating the exchange does not require any authorization beyond the
+exchange. Note that while the exchange URL is given to the coordinator to
+provide to the exchange client, the actual exchange is performed between the
+exchange client and the workflow service, not the coordinator.
+      </p>
+      <p>
+Initiating the exchange does not require any authorization beyond the
 exchange URL. Depending on the workflow service implementation, exchange URLs
 can also be capability URLs (i.e., the URL is an unguessable secret such that
 only whomever is given the URL can initiate the exchange). If the workflow that
