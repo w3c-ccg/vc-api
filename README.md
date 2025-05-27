@@ -57,7 +57,7 @@ reference an issue and related discussion around the topic
 ### Security
 
 Implementations of this API SHOULD NOT be exposed directly over http(s) without
-authorization.  Best Practices around OAuth and other widely accepted standards
+authorization. Best Practices around OAuth and other widely accepted standards
 for authentication and/or authorization should be followed.
 
 ### Holder APIs
