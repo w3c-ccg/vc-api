@@ -31,8 +31,17 @@ paths:
             schema:
               $ref: "#/components/schemas/CreateWorkflowRequest"
       responses:
+        "201":
+          description: Workflow successfully created (with data)
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+                description: The HTTP URL used to retrieve workflow metadata.
+                example: https://issuer.example.com/workflows/123
         "204":
-          description: Workflow successfully created!
+          description: Workflow successfully created (without data)
           headers:
             Location:
               schema:
@@ -93,8 +102,17 @@ paths:
             schema:
               $ref: "#/components/schemas/CreateExchangeRequest"
       responses:
+        "201":
+          description: Exchange successfully created (with data)
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+                description: The HTTP URL used to retrieve exchange metadata.
+                example: https://issuer.example.com/workflows/123/exchanges/abc
         "204":
-          description: Exchange successfully created!
+          description: Exchange successfully created (without data)
           headers:
             Location:
               schema:
