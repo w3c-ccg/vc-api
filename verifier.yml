@@ -60,7 +60,6 @@ paths:
             schema:
               oneOf:
                 - $ref: "#/components/schemas/VerifyPresentationRequest"
-                - $ref: "#/components/schemas/ProoflessVerifyPresentationRequest"
                 - $ref: "#/components/schemas/VerifyEnvelopedPresentationRequest"
         description: Parameters for verifying a verifiablePresentation.
       responses:
@@ -129,11 +128,6 @@ components:
           $ref: "./components/EnvelopedVerifiablePresentation.yml#/components/schemas/EnvelopedVerifiablePresentation"
         options:
           $ref: "./components/VerifyPresentationOptions.yml#/components/schemas/VerifyPresentationOptions"
-    ProoflessVerifyPresentationRequest:
-      type: object
-      properties:
-        presentation:
-          $ref: "./components/Presentation.yml#/components/schemas/Presentation"
     VerifyPresentationResponse:
       $ref: "./components/VerifyPresentationResult.yml#/components/schemas/VerificationResult"
     CreateChallengeResponse:

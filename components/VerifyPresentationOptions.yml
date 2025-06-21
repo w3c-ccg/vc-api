@@ -15,17 +15,17 @@ components:
     VerifyPresentationOptions:
       type: object
       additionalProperties: false
-      description: Options for specifying how a presentation is verified
+      description: Options for specifying how a presentation is verified.
       properties:
         challenge:
           type: string
-          description: A challenge provided by the requesting party of the proof. For example 6e62f66e-67de-11eb-b490-ef3eeefa55f2
+          description: A challenge provided by the requesting party of the proof. For example, <code>6e62f66e-67de-11eb-b490-ef3eeefa55f2</code>.
         domain:
           type: string
-          description: The intended domain of validity for the proof. For example website.example
+          description: The intended domain of validity for the proof. For example, <code>website.example</code>.
         returnPresentation:
           type: boolean
-          description: Should the verified presentation be returned in the response? If true, then the verified presentation should be returned in the form in which it was verified. If false or not provided, then the verified presentation should not be returned.
+          description: Whether or not to return the verified presentation. If true, then the verified presentation MUST be returned. If false or not provided, then the verified presentation MUST NOT be returned.
       example:
         {
           "domain": "example.com",
