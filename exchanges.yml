@@ -198,6 +198,36 @@ paths:
           description: Not Authorized
         "500":
           description: Internal Error
+  /workflows/{localWorkflowId}/exchanges/{localExchangeId}/protocols:
+    get:
+      summary: Gets the supported protocols for interacting with a specific exchange.
+      tags:
+        - Exchanges
+      security:
+        - networkAuth: []
+        - oAuth2: []
+        - zCap: []
+      operationId: getSupportedProtocolsConfiguration
+      description: Gets the supported protocols for interacting with a specific exchange.
+      x-expectedCaller:
+        - Verification Coordinator
+        - Holder Coordinator
+      parameters:
+        - $ref: "./components/parameters/path/LocalWorkflowId.yml"
+        - $ref: "./components/parameters/path/LocalExchangeId.yml"
+      responses:
+        "200":
+          description: Protocols understood by the exchange.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetExchangeProtocolsResponse"
+        "400":
+          description: Invalid input
+        "401":
+          description: Not Authorized
+        "500":
+          description: Internal Error
 components:
   securitySchemes:
     $ref: "./components/SecuritySchemes.yml#/components/securitySchemes"
@@ -323,6 +353,27 @@ components:
             redirectUrl:
               type: string
               description: The URL the exchange wishes to redirect the client to.
+    GetExchangeProtocolsResponse:
+      type: object
+      additionalProperties: false
+      description: Object containing information about the protocols that can be used to perform a specific exchange.
+      properties:
+        protocols:
+          type: object
+          description: An object containing one or more protocols that can be used to perform the specific exchange.
+          properties:
+            interact:
+              type: string
+              description: A URL that can be used during human-in-the-loop exchange flows.
+            vcapi:
+              type: string
+              description: The URL to use when initiating a VC API exchange.
+            OID4VP:
+              type: string
+              description: The URL to use when initiating an OID4VP presentation.
+            OID4VCI:
+              type: string
+              description: The URL to use when initiating an OID4VCI issuance.
     GetExchangeResponse:
       type: object
       additionalProperties: false
