@@ -209,14 +209,10 @@ components:
       properties:
         steps:
           type: object
-          description: One or more steps required to complete an exchange on the workflow. Passing the steps object is REQUIRED.
+          description: One or more steps required to complete an exchange on the workflow. Passing the steps object is REQUIRED. The keys are step names and the values are step configurations.
           properties:
-            stepName:
-              type: object
-              description: The name of the step.
-              properties:
-                step:
-                  $ref: "#/components/schemas/WorkflowStep"
+            theNameOfTheStep:
+              $ref: "#/components/schemas/WorkflowStep"
         initialStep:
           type: string
           description: The step from the above set that the exchange starts on. Passing intialStep is REQUIRED.
@@ -256,14 +252,10 @@ components:
       properties:
         steps:
           type: object
-          description: One or more steps required to complete an exchange on the workflow.
+          description: One or more steps required to complete an exchange on the workflow. The keys are step names and the values are step configurations.
           properties:
-            stepName:
-              type: object
-              description: The name of the step.
-              properties:
-                step:
-                  $ref: "#/components/schemas/WorkflowStep"
+            theNameOfTheStep:
+              $ref: "#/components/schemas/WorkflowStep"
         initialStep:
           type: string
           description: The step from the above set that the exchange starts on.
