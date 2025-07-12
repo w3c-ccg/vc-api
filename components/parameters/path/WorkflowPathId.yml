@@ -1,0 +1,7 @@
+name: workflowPathId
+description: A path-specific (local) identifier for a workflow instance. This is a local identifier that is meaningful only within the context of this API endpoint path, not a globally unique identifier.
+in: path
+required: true
+schema:
+  type: string
+  pattern: "[a-z0-9][a-z0-9\\-]{2,}"

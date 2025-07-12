@@ -55,7 +55,7 @@ paths:
           description: Not Authorized
         "500":
           description: Internal Error
-  /workflows/{localWorkflowId}:
+  /workflows/{workflowPathId}:
     get:
       summary: Gets the configuration of an existing workflow and returns it in the response body.
       tags:
@@ -68,7 +68,7 @@ paths:
       description: Gets the configuration of an existing workflow and returns it in the response body.
       x-expectedCaller: Administrators
       parameters:
-        - $ref: "./components/parameters/path/LocalWorkflowId.yml"
+        - $ref: "./components/parameters/path/WorkflowPathId.yml"
       responses:
         "200":
           description: Workflow configuration retrieved!
@@ -82,7 +82,7 @@ paths:
           description: Not Authorized
         "500":
           description: Internal Error
-  /workflows/{localWorkflowId}/exchanges:
+  /workflows/{workflowPathId}/exchanges:
     post:
       summary: Creates a new exchange and returns location of exchange metadata in a response header.
       tags:
@@ -95,7 +95,7 @@ paths:
       description: Creates a new exchange and returns location of exchange metadata in a response header.
       x-expectedCaller: Owner Coordinator
       parameters:
-        - $ref: "./components/parameters/path/LocalWorkflowId.yml"
+        - $ref: "./components/parameters/path/WorkflowPathId.yml"
       requestBody:
         content:
           application/json:
@@ -126,7 +126,7 @@ paths:
           description: Not Authorized
         "500":
           description: Internal Error
-  /workflows/{localWorkflowId}/exchanges/{localExchangeId}:
+  /workflows/{workflowPathId}/exchanges/{exchangePathId}:
     get:
       summary: Gets the state of an existing exchange and returns it in the response body.
       tags:
@@ -139,8 +139,8 @@ paths:
       description: Gets the configuration of an existing exchange and returns it in the response body.
       x-expectedCaller: Owner Coordinator
       parameters:
-        - $ref: "./components/parameters/path/LocalWorkflowId.yml"
-        - $ref: "./components/parameters/path/LocalExchangeId.yml"
+        - $ref: "./components/parameters/path/WorkflowPathId.yml"
+        - $ref: "./components/parameters/path/ExchangePathId.yml"
       responses:
         "200":
           description: Exchange configuration retrieved!
@@ -170,8 +170,8 @@ paths:
       description: Participate in an exchange. Posting an empty body will start the exchange or return what the exchange is expecting to complete the next step.
       x-expectedCaller: Anyone
       parameters:
-        - $ref: "./components/parameters/path/LocalWorkflowId.yml"
-        - $ref: "./components/parameters/path/LocalExchangeId.yml"
+        - $ref: "./components/parameters/path/WorkflowPathId.yml"
+        - $ref: "./components/parameters/path/ExchangePathId.yml"
       requestBody:
         content:
           application/json:

@@ -866,7 +866,7 @@ does not understand or know how to process.
         that is expected to call the endpoint
       </p>
       <table class="simple api-component-table"
-        data-api-path="/workflows /workflows/{localWorkflowId} /workflows/{localWorkflowId}/exchanges /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></table>
+        data-api-path="/workflows /workflows/{workflowPathId} /workflows/{workflowPathId}/exchanges /workflows/{workflowPathId}/exchanges/{exchangePathId}"></table>
 
     </section>
     <section>
@@ -1259,12 +1259,12 @@ The following APIs are defined for using workflows and exchanges for credential 
       </p>
 
       <table class="simple api-summary-table"
-        data-api-path="/workflows /workflows/{localWorkflowId} /workflows/{localWorkflowId}/exchanges /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></table>
+        data-api-path="/workflows /workflows/{workflowPathId} /workflows/{workflowPathId}/exchanges /workflows/{workflowPathId}/exchanges/{exchangePathId}"></table>
 
-      <p>
+      <p class="note" title="Path Identifier (PathId) Convention">
 In the workflows and exchanges APIs, a "local" ID refers to an ID that is local to a service instance.
 In other words, an `exchangeId` or `workflowId` refers to a fully qualified URL,
-while a `localExchangeId` or `localWorkflowId` refers to a specific element in the URL path.
+while a `exchangePathId` or `workflowPathId` refers to a specific element in the URL path.
       </p>
 
       <section>
@@ -1282,10 +1282,10 @@ while a `localExchangeId` or `localWorkflowId` refers to a specific element in t
         </p>
 
         <div class="api-detail"
-          data-api-endpoint="get /workflows/{localWorkflowId}"></div>
+          data-api-endpoint="get /workflows/{workflowPathId}"></div>
       </section>
       <p>
-There is an `expires` property associated with exchanges, denoting the expiration date and time of the exchange. It is created using the /workflows/{localWorkflowId}/exchanges
+There is an `expires` property associated with exchanges, denoting the expiration date and time of the exchange. It is created using the /workflows/{workflowPathId}/exchanges
 endpoint. This impacts the lifetime of challenges associated with such an exchange: if a
 challenge is bound to an exchange, that challenge ceases to be valid at the date referenced by the `expires` property of the exchange.
       </p>
@@ -1295,7 +1295,7 @@ challenge is bound to an exchange, that challenge ceases to be valid at the date
         </p>
 
         <div class="api-detail"
-          data-api-endpoint="post /workflows/{localWorkflowId}/exchanges"></div>
+          data-api-endpoint="post /workflows/{workflowPathId}/exchanges"></div>
       </section>
 
       <section>
@@ -1304,7 +1304,7 @@ challenge is bound to an exchange, that challenge ceases to be valid at the date
         </p>
 
         <div class="api-detail"
-          data-api-endpoint="post /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></div>
+          data-api-endpoint="post /workflows/{workflowPathId}/exchanges/{exchangePathId}"></div>
       </section>
 
       <section>
@@ -1313,7 +1313,7 @@ challenge is bound to an exchange, that challenge ceases to be valid at the date
         </p>
 
         <div class="api-detail"
-          data-api-endpoint="get /workflows/{localWorkflowId}/exchanges/{localExchangeId}"></div>
+          data-api-endpoint="get /workflows/{workflowPathId}/exchanges/{exchangePathId}"></div>
       </section>
 
 
