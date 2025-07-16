@@ -15,24 +15,76 @@ components:
     VerificationResult:
       type: object
       additionalProperties: false
-      description: Object summarizing a verification
+      description: Object to report the result of a verification process on a VerifiablePresentation.
       properties:
-        checks:
-          type: array
-          description: The checks performed
-          items:
-            type: string
-        warnings:
-          type: array
-          description: Warnings
-          items:
-            type: string
-        errors:
-          type: array
-          description: Errors
-          items:
-            type: string
-        presentation:
+        verified:
+          type: boolean
+          description: Overall verification assertion of the VerifiablePresentation. This is set to `True` if no errors were detected during the verification process; otherwise, `False`. See error handling section for more guidance around errors, warnings, and validation and verification steps.
+        verifiablePresentation:
           type: object
-          description: The verified presentation
-      example: { "checks": ["proof"], "warnings": [], "errors": [] }
+          description: The VerifiablePresentation used as the verification input.
+        problemDetails:
+          type: array
+          description: Array consisting of ProblemDetails objects.
+          items:
+            $ref: "./ProblemDetails.yml#/components/schemas/ProblemDetails"
+        results:
+          type: object
+          additionalProperties: false
+          description: Verification results to be included as a more verbose output. Keys are mapped to properties from the Verifiable Credential Data Model which are subject to validations.
+          properties:
+            challenge:
+              type: object
+              description: If provided in the verification options, the result of validating the security challenge across all proofs provided.
+              properties:
+                valid:
+                  type: boolean
+                  description: Result of validating the security challenge across all proofs provided.
+                input:
+                  type: string
+                  description: The challenge input string.
+            domain:
+              type: object
+              description: If provided in the verification options, the result of validating the security domain across all proofs provided.
+              properties:
+                valid:
+                  type: boolean
+                  description: Result of validating the security domain across all proofs provided.
+                input:
+                  type: string
+                  description: The security domain input string.
+            holder:
+              type: object
+              description: Result from validating the holder, if any.
+              properties:
+                valid:
+                  type: boolean
+                  description: Result of validating the holder.
+                input:
+                  type: string
+                  description: The holder input string.
+            proof:
+              type: array
+              description: Results from validating the proof objects if any.
+              items:
+                type: object
+                description: Results from validating a proof object.
+                properties:
+                  valid:
+                    type: boolean
+                    description: Results of validating the proof object.
+                  input:
+                    type: object
+                    description: The proof object.
+      example: {
+        "verified": false,
+        "verifiablePresentation": {},
+        "problemDetails": [{
+          "title": "PARSING_ERROR",
+          "type": "https://www.w3.org/TR/vc-data-model#PARSING_ERROR"
+        }],
+        "results": {
+          "holder": {},
+          "proof": []
+        }
+      }
