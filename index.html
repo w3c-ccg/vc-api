@@ -903,10 +903,30 @@ a single call to the `/credentials/issue` endpoint.
         </p>
         <p>
 If a provided `credential` already contains one or more proofs,
-an issuing instance SHOULD append its proofs to the list of existing proofs
-provided by the caller, converting a single proof value to an array of
-proof values if necessary. An issuing instance MAY be configured to return an
-error if `credential` values that contain existing `proof` values are provided.
+the behavior is determined by the issuer instance configuration. An issuing instance
+SHOULD be configured to handle existing proofs in one of the following ways:
+        </p>
+        <ul>
+          <li>
+            <strong>Proof Sets</strong>: Append new proofs to the list of existing proofs 
+provided by the caller, first converting any existing single proof to a list, if necessary.
+Here there is no binding to any existing proofs; the new proofs exist in parallel with
+those previously provided by the caller.
+          </li>
+          <li>
+            <strong>Proof Chains</strong>: Append new proofs to create or extend
+an existing proof chain. Here proofs are linked in a specific sequence, using the
+<code>previousProof</code> property to establish the chain relationship.
+          </li>
+          <li>
+            <strong>Error Handling</strong>: Return an error if <code>credential</code>
+values that contain existing <code>proof</code> values are provided, when the instance is 
+configured to only accept credentials without existing proofs.
+          </li>
+        </ul>
+        <p>
+The specific approach used depends on the issuer instance configuration and the intended use case
+for the verifiable credential.
         </p>
       </section>
 
