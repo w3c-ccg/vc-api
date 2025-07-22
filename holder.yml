@@ -52,7 +52,9 @@ paths:
        - oAuth2: []
        - zCap: []
       summary: Deletes a credential or verifiable credential by ID. To delete a credential that does not have credential.id set but has an associated credentialId value, pass credentialId instead.
-      x-expectedCaller: "Issuer Coordinator"
+      x-expectedCaller:
+        - Issuer Coordinator
+        - Holder Coordinator
       operationId: deleteCredential
       parameters:
         - $ref: "./components/parameters/path/ObjectId.yml"

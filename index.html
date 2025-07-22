@@ -489,48 +489,49 @@ interfaces, such interfaces are out of scope for the VC API. Only the
 network endpoints of services are defined herein.
         </p>
         <p>
-The Issuer Service takes requests to issue VCs from authorized Issuer Coordinators
-and returns well-formed, signed Verifiable Credentials. This service MUST
-have access to private keys (or key services which utilize private keys)
-in order to create the proofs for those VCs. The API between the Issuer
-service and its associated key service is believed to be out of scope for
-the VC API, but may be addressed by WebKMS or similar specifications.
+The <dfn>issuer service</dfn> takes requests to issue VCs from authorized Issuer
+Coordinators and returns well-formed, signed Verifiable Credentials. This
+service MUST have access to private keys (or key services which utilize private
+keys) in order to create the proofs for those VCs. The API between the Issuer
+service and its associated key service is believed to be out of scope for the VC
+API, but may be addressed by WebKMS or similar specifications.
         </p>
         <p>
-The Verifier service takes requests to verify Verifiable Credentials and
-Verifiable Presentations and returns the result of checking their proofs
-and status (if present). The service only checks the authenticity and
-timeliness of the VC; leaving the Verifier Coordinator to finish Applying any business rules needed.
+The <dfn>verifier service</dfn> takes requests to verify Verifiable Credentials
+and Verifiable Presentations and returns the result of checking their proofs and
+status (if present). The service only checks the authenticity and timeliness of
+the VC; leaving the Verifier Coordinator to finish Applying any business rules
+needed.
         </p>
         <p>
-  The Holder service takes requests to create Verifiable Presentations
-  from an optional set of VCs and returns well-formed, signed Verifiable
-  Presentations containing those VCs. These VPs are used with Issuers to
-  demonstrate control over DIDs prior to issuance and with Verifiers to
-  present specific VCs.
+The <dfn>holder service</dfn> takes requests to create Verifiable Presentations
+from an optional set of VCs and returns well-formed, signed Verifiable
+Presentations containing those VCs. These VPs are used with Issuers to
+demonstrate control over DIDs prior to issuance and with Verifiers to present
+specific VCs.
         </p>
       </section>
       <section>
         <h3>Status Service</h3>
         <p>
-        The Status Service provides a privacy-preserving means for publishing
-        and checking the status of any Verifiable Credentials issued by the
-        Issuer. Implementers of verifier services are encouraged to understand the
-        privacy implications of checking status by referring to the respective
-        status specification used by the verifiable credential.
+The <dfn>status service</dfn> provides a privacy-preserving means for publishing
+and checking the status of any Verifiable Credentials issued by the Issuer.
+Implementers of verifier services are encouraged to understand the privacy
+implications of checking status by referring to the respective status
+specification used by the verifiable credential.
         </p>
         <p>
-          For specific mechanisms by which to manage Verifiable Credential statuses,
-          it's recommended to refer to external well known specifications, such as the
-          [[VC-BITSTRING-STATUS-LIST]].
+For specific mechanisms by which to manage Verifiable Credential statuses, it's
+recommended to refer to external well known specifications, such as the
+[[VC-BITSTRING-STATUS-LIST]].
         </p>
       </section>
       <section>
         <h3>Storage Services</h3>
         <p>
-          <strong>Storage Service (Issuer) &bull;Storage Service
-            (Verifier) &bull; Storage Service (Holder)
-          </strong>
+<strong>Storage Service (Issuer) &bull;Storage Service (Verifier) &bull; Storage
+Service (Holder)
+</strong>
         </p>
         <p>
 Each actor in the system is expected to store their own verifiable
@@ -557,13 +558,13 @@ back-end storage platforms.
       <section>
         <h3>Workflow Service</h3>
         <p>
-The Workflow Service provides a way for coordinators to automate specific
-interactions for specific users. Each role (Holder, Issuer, and Verifier)
-can run their own Workflow Service to create and manage exchanges that
-realize particular workflows. Administrators configure the workflow system
-to support particular flows. Then, when the business rules justify it,
-coordinators create exchanges at their Workflow Service and give authorized
-access to those exchanges to any party.
+The <dfn>workflow service</dfn> provides a way for coordinators to automate
+specific interactions for specific users. Each role (Holder, Issuer, and
+Verifier) can run their own Workflow Service to create and manage exchanges that
+realize particular workflows. Administrators configure the workflow system to
+support particular flows. Then, when the business rules justify it, coordinators
+create exchanges at their Workflow Service and give authorized access to those
+exchanges to any party.
         </p>
       </section>
       <section>
@@ -858,7 +859,7 @@ does not understand or know how to process.
         that is expected to call the endpoint
       </p>
       <table class="simple api-component-table"
-        data-api-path="/credentials/derive /presentations/prove /presentations /presentations/{id}"></table>
+        data-api-path="/credentials/derive /credentials/{id} /presentations /presentations/{id}"></table>
 
       <h4>Workflow Service</h4>
       <p>
@@ -926,6 +927,23 @@ error if `credential` values that contain existing `proof` values are provided.
 
         <div class="api-detail"
           data-api-endpoint="post /credentials/status"></div>
+      </section>
+
+      <section>
+        <h4>Delete a Specific Credential</h4>
+        <p>
+An [=issuer service=] or a [=holder service=] might store an issued
+[=verifiable credential=] for an extended period of time. When this is done,
+it can be useful to delete such a [=verifiable credential=]. An [=issuer=]
+might need to do so because of regulatory requirements such as
+<a href="https://en.wikipedia.org/wiki/Right_to_be_forgotten">
+the right to be forgotten</a>. See Section [[[#deletion]]] for additional
+considerations related to the removal of [=verifiable credentials=] from
+systems.
+        </p>
+
+        <div class="api-detail"
+          data-api-endpoint="delete /credentials/{id}"></div>
       </section>
 
     </section>
