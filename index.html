@@ -717,14 +717,14 @@ OAuth2 tokens for this purpose have an audience of the particular issuer instanc
 e.g., `origin/issuers/zc612332f3`.
         </p>
         <p>
-The scopes are generalized to read/write actions on particular endpoints:
+The scopes are generalized to read/write actions on particular endpoints, as follows:
         </p>
         <ul>
           <li>
-            `read:/` would allow reading on any API on a particular instance.
+`read:/` would allow reading on any API on a particular instance.
           </li>
           <li>
-            `write:/` would allow writing on any API on a particular instance.
+`write:/` would allow writing on any API on a particular instance.
           </li>
         </ul>
         <p>
@@ -1066,7 +1066,7 @@ can involve the issuance, verification, transmission, and/or presentation of
 verifiable credentials. Workflows are designed to support both linear sequences
 of steps and more complex patterns including branching logic and repeated steps,
 enabling sophisticated interactions between the parties involved. Examples of VC API 
-workflows include, but are not limited to:
+workflows include, but are not limited to, the following:
       </p>
       <ul class="bullet">
         <li>
@@ -1821,7 +1821,7 @@ Delegation is highly relevant for both phases. The <a>issuer</a> might delegate
 processing of the request to a separate entity. The subject, for their part,
 might also delegate the ability to request a <a>verifiable credential</a> to a
 separate entity. Note that the subject might not always have the capability or
-ability to perform delegation. Examples include: a new born baby, a pet, and a
+ability to perform delegation. Examples include a new born baby, a pet, and a
 person with dementia. So the request might be performed by a third party who was
 not delegated by the subject. The ability to delegate is a third dimension in
 the enhanced efficiency of processing <a>verifiable credentials</a> and has
