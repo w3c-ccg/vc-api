@@ -1291,6 +1291,7 @@ There is an `expires` property associated with exchanges, denoting the expiratio
 endpoint. This impacts the lifetime of challenges associated with such an exchange: if a
 challenge is bound to an exchange, that challenge ceases to be valid at the date referenced by the `expires` property of the exchange.
       </p>
+
       <section>
         <h4>Create Exchange</h4>
         <p>
@@ -1298,6 +1299,15 @@ challenge is bound to an exchange, that challenge ceases to be valid at the date
 
         <div class="api-detail"
           data-api-endpoint="post /workflows/{localWorkflowId}/exchanges"></div>
+      </section>
+
+      <section>
+        <h4>Get Exchange Protocols</h4>
+        <p>
+        </p>
+
+        <div class="api-detail"
+          data-api-endpoint="get /workflows/{localWorkflowId}/exchanges/{localExchangeId}/protocols"></div>
       </section>
 
       <section>
