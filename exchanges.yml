@@ -432,6 +432,7 @@ components:
           properties:
             createAuthorizationRequest:
               type: string
-              description: If present, auto-generate the OID4VP authorization request from the VPR. Either this or authorizationRequest must be present, but not both.
+              description: If present, identifies the name of the template variable (in <code>variables</code> for an <a href="#create-exchange">exchange</a>) that the auto-generated OpenID for Verifiable Presentations Authorization Request will be stored in for subsequent use in the exchange. Either this or <code>authorizationRequest</code> MUST be present, but not both.
             authorizationRequest:
               type: object
+              description: If present, an OID4VP Authorization Request for subsequent use in the exchange. Either this or <code>createAuthorizationRequest</code> MUST be present, but not both.
