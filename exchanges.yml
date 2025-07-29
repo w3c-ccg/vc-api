@@ -423,6 +423,16 @@ components:
           description: An optional step directive that tells the exchange to handle challenge management via a VC API verifier service it has a zcap for.
         verifiablePresentationRequest:
           $ref: "./components/VerifiablePresentationRequest.yml#/components/schemas/VerifiablePresentationRequest"
+        presentationSchema:
+          type: object
+          description: The presentation schema to use when validating a presentation in the current step.
+          properties:
+            types:
+              type: string
+              description: The type of presentation schema, such as <code>JsonSchema</code>.
+            jsonSchema:
+              type: object
+              description: The JSON Schema object to use if the <code>type</code> is <code>JsonSchema</code>.
         nextStep:
           type: string
           description: The name of the next step in the sequence. Passing nextStep is OPTIONAL. This field MUST NOT be present on the final step configuration.
