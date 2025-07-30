@@ -1029,12 +1029,12 @@ The following APIs are defined for presenting a Verifiable Credential:
         data-api-path="
           /credentials/derive /presentations
           /presentations /presentations/{id}
-          /exchanges/ /exchanges/{exchange-id} /exchanges/{exchange-id}/{transaction-id}"
+          /exchanges/ /exchanges/{exchange-id}"
         ></table>
 
         <p class="advisement">
-The URL path values <code>exchange-id</code> and <code>transaction-id</code> are
-meaningful to the server but are opaque to the client. While some server
+The URL path values <code>exchange-id</code> is
+meaningful to the server but is opaque to the client. While some server
 implementations might use values that happen to be human-readable,  clients are
 strongly advised to not assign semantics to any human-readable values.
         </p>
