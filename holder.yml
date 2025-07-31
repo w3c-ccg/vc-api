@@ -366,48 +366,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /exchanges/{exchange-id}/{transaction-id}:
-    post:
-      summary: Receives information related to an existing exchange.
-      tags:
-       - Exchanges
-      security:
-       - networkAuth: []
-       - oAuth2: []
-       - zCap: []
-       - didAuth: []
-      operationId: receiveExchangeData
-      description:
-        A client can use this endpoint to continue the exchange of information
-        associated with an initiated exchange by sending a Verifiable Presentation
-        with information requested by the server to this endpoint.
-      parameters:
-        - $ref: "./components/parameters/path/ExchangeId.yml"
-        - $ref: "./components/parameters/path/TransactionId.yml"
-      requestBody:
-        description:
-          A Verifiable Presentation.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/VerifiablePresentationBody"
-      responses:
-        "200":
-          description: Received data was accepted.
-          content:
-            application/json:
-              schema:
-                anyOf:
-                  - $ref: "#/components/schemas/VerifiablePresentationBody"
-                  - $ref: "#/components/schemas/VerifiablePresentationRequestBody"
-        "400":
-          description: Received data is malformed.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-        "404":
-          description: The associated exchange or transaction was not found.
 
 components:
   securitySchemes:

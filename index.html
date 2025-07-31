@@ -1029,12 +1029,12 @@ The following APIs are defined for presenting a Verifiable Credential:
         data-api-path="
           /credentials/derive /presentations
           /presentations /presentations/{id}
-          /exchanges/ /exchanges/{exchange-id} /exchanges/{exchange-id}/{transaction-id}"
+          /exchanges/ /exchanges/{exchange-id}"
         ></table>
 
         <p class="advisement">
-The URL path values <code>exchange-id</code> and <code>transaction-id</code> are
-meaningful to the server but are opaque to the client. While some server
+The URL path value <code>exchange-id</code> is
+meaningful to the server but is opaque to the client. While some server
 implementations might use values that happen to be human-readable,  clients are
 strongly advised to not assign semantics to any human-readable values.
         </p>
@@ -1607,7 +1607,7 @@ A holder-initiated interaction using a QR Code
 The format of the <dfn>interaction URL</dfn> MUST conform to the syntax for the
 [[[URL]]] and contain an `iuv` query parameter encoding the interaction URL
 version number, which MUST be `1` when using this version of the VC API. The interaction URL SHOULD be an HTTPS URL
-that contains a transaction-specific interaction identifier. The URL SHOULD be
+that contains an interaction-specific identifier. The URL SHOULD be
 opaque and require no URL syntax processing before it is fetched by the
 receiving system. An example of such a URL is shown below:
         </p>
@@ -1697,7 +1697,7 @@ send the individual. An example of the POST data is shown below:
 
         <pre class="example nohighlight" title="A website interaction protocol redirect request">
 {
-  "url": "https://website.example/transactions/8372974",
+  "url": "https://website.example/interactions/8372974",
   "purpose": "Checkout at ShopCo",
   "referenceId": "417bcaf2-14d9-11f0-99d7-9f094678517b"
 }
