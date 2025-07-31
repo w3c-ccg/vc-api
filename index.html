@@ -1661,11 +1661,19 @@ result in the following response:
 {
   "protocols": {
     "website": "https://app.example/redirects/z8j3kfk2lQ",
-    "vcapi": "https://app.example/workflows/123/exchanges/987",
+    "vcapi": "https://saas.example/workflows/123/exchanges/987",
     "oid4vp": "openid4vp://?client_id=https%3A%2F%2Fapp.example%2Fworkflows%2F123%2Fexchanges%2F987%2Fopenid%2Fclient%2Fauthorization%2Fresponse&request_uri=https%3A%2F%2Fapp.example%2Fworkflows%2F123%2Fexchanges%2F987%2Fopenid%2Fclient%2Fauthorization%2Frequest'"
   }
 }
         </pre>
+
+        <p>
+The protocol response enables delegation of protocol execution to third-party service 
+providers through the HTTPS domain trust model, similar to the delegation mechanism 
+described in the <a href="#get-exchange-protocols">Get Exchange Protocols</a> section. 
+For example, the website `app.example` can delegate the operation of the exchange to a partner 
+`saas.example` by using the `saas.example` domain in the list of protocols.
+        </p>
 
         <p>
 When the [=interaction URL=] is fetched using any unrecognized `Accept` header,
