@@ -1033,7 +1033,7 @@ The following APIs are defined for presenting a Verifiable Credential:
         ></table>
 
         <p class="advisement">
-The URL path values <code>exchange-id</code> is
+The URL path value <code>exchange-id</code> is
 meaningful to the server but is opaque to the client. While some server
 implementations might use values that happen to be human-readable,  clients are
 strongly advised to not assign semantics to any human-readable values.
@@ -1607,7 +1607,7 @@ A holder-initiated interaction using a QR Code
 The format of the <dfn>interaction URL</dfn> MUST conform to the syntax for the
 [[[URL]]] and contain an `iuv` query parameter encoding the interaction URL
 version number, which MUST be `1` when using this version of the VC API. The interaction URL SHOULD be an HTTPS URL
-that contains a interaction-specific identifier. The URL SHOULD be
+that contains an interaction-specific identifier. The URL SHOULD be
 opaque and require no URL syntax processing before it is fetched by the
 receiving system. An example of such a URL is shown below:
         </p>
