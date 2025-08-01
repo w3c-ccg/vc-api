@@ -44,7 +44,7 @@ paths:
           description: invalid input!
   /presentations/verify:
     post:
-      summary: Verifies a Presentation with or without proofs attached and returns a verificationResult in the response body.
+      summary: Verifies a Presentation and all contained Verifiable Credentials, returning detailed verification results.
       tags:
        - Presentations
       security:
@@ -53,7 +53,25 @@ paths:
        - zCap: []
       operationId: verifyPresentation
       x-expectedCaller: "Verification Coordinator"
-      description: Verifies a verifiablePresentation and returns a verificationResult in the response body.  Given the possibility of denial of service, buffer overflow, or other style attacks, an implementation is permitted to rate limit or restrict requests against this API endpoint to those requests that contain only a single credential with a 413 or 429 error code as appropriate.
+      description: |
+        Verifies a verifiablePresentation and, by default, all verifiable credentials
+        contained within it.
+        
+        The verification process includes verifying the presentation's own proof (including domain
+        and challenge validation if provided), verifying each contained verifiable credential's proof, 
+        status, and validity periods, checking that the holder in the presentation matches the
+        verification method used in the presentation's proof.
+        
+        Business rule validation (such as verifying that credential subjects match the presentation holder)
+        is outside the scope of this verification endpoint and should be performed by the calling application.
+
+        API is compositional: when credential verification is disabled or limited via 
+        implementation-specific options, individual credentials can be verified separately 
+        using the /credentials/verify endpoint.
+        
+        Given the possibility of denial of service, buffer overflow, or other style attacks, an implementation 
+        is permitted to rate limit or restrict requests against this API endpoint to those requests that 
+        contain only a single credential with a 413 or 429 error code as appropriate.
       requestBody:
         content:
           application/json:
@@ -65,13 +83,21 @@ paths:
         description: Parameters for verifying a verifiablePresentation.
       responses:
         "200":
-          description: Verifiable Presentation successfully verified!
+          description: |
+
+            Verification process completed successfully. The response body contains detailed results 
+            indicating whether the presentation and its credentials passed or failed verification. 
+            A 200 status indicates the verification process itself succeeded, regardless of whether 
+            the presentation/credentials were determined to be valid or invalid.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/VerifyPresentationResponse"
         "400":
-          description: Invalid or malformed input
+          description: |
+            Invalid or malformed input that prevented the verification process from being performed. 
+            This indicates issues with the request format, structure, or parameters rather than 
+            verification failures.
         "413":
           description: Payload too large
         "429":

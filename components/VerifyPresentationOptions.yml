@@ -14,8 +14,20 @@ components:
   schemas:
     VerifyPresentationOptions:
       type: object
-      additionalProperties: false
+      additionalProperties: true
       description: Options for specifying how a presentation is verified.
+
+        Implementations MAY extend this object with additional properties to control
+        verification behavior. Common extensions may include options to disable 
+        verification of contained credentials (e.g., for debugging or when only 
+        presentation-level verification is needed), fine-grained controls for 
+        credential verification aspects such as status checks, validity period 
+        validation, proof verification, and schema validation, and selective 
+        verification controls for specific credentials within the presentation.
+        
+        The API is compositional when credential verification is disabled or limited, 
+        indvidual credentials can be verified separately using the /credentials/verify endpoint.
+      
       properties:
         challenge:
           type: string

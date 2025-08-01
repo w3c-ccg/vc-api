@@ -998,6 +998,27 @@ can be provided in the request.
       <section>
         <h4>Verify Presentation</h4>
         <p>
+This endpoint is used to verify a <a>verifiable presentation</a> and, by default,
+all <a>verifiable credentials</a> contained within it.
+        </p>
+
+        <p>
+The verification process includes:
+        </p>
+        <ul>
+          <li>Verifying the presentation's own proof (including domain 
+and challenge validation)</li>
+          <li>Verifying each contained verifiable credential's proof, 
+status, and validity periods</li>
+          <li>Checking that the holder in the presentation matches 
+the verification method used in the presentation's proof</li>
+        </ul>
+
+        <p>
+Business rule validation (such as verifying that credential subjects 
+match the presentation holder, or authorization policies about who can 
+present which credentials) is outside the scope of this verification 
+endpoint and should be performed by the calling application.
         </p>
 
         <div class="api-detail"
