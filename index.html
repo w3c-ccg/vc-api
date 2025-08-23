@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Verifiable Credentials API v0.7</title>
+  <title style="font-size: 10px;">VCALM v0.9</title>
   <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
   <script class="remove"
     src="https://www.w3.org/Tools/respec/respec-w3c"></script>
@@ -30,7 +30,7 @@
     edDraftURI: "https://w3c-ccg.github.io/vc-api/",
 
     // subtitle for the spec
-    subtitle: "An HTTP API for Verifiable Credentials lifecycle management",
+    subtitle: "A Verifiable Credential API for Lifecycle Management",
 
     // if you wish the publication date to be other than today, set this
     //publishDate:  "2019-11-07",
@@ -374,7 +374,7 @@ The roles defined by the Verifiable Credentials Data Model specification.
 
       <p>
 Actors fulfilling each of these roles may use a number of software or service
-components to realize the VC API for exchanging Verifiable Credentials.
+components to realize the API for exchanging Verifiable Credentials.
       </p>
       <p>
 Each role associates with a role-specific Coordinator, Service, and Admin as
@@ -385,14 +385,14 @@ manage a Status Service for revocable credentials issued by the Issuer.
       <figure id="components">
         <img style="margin: auto; width: 100%; display: block;"
        src="diagrams/components.svg"
-       alt="VC API Components of Coordinators, Services, and Admin for Issuers, Verifiers, and Holders">
+       alt="API Components of Coordinators, Services, and Admin for Issuers, Verifiers, and Holders">
         <figcaption style="text-align: center;">
-VC API Components. Arrows indicate initiation of flows.
+API Components. Arrows indicate initiation of flows.
         </figcaption>
       </figure>
 
       <p>
-Any given VC API implementation may choose to combine any or all of these
+Any given implementation may choose to combine any or all of these
 components into a single functional application. The boundaries and interfaces
 between these components are defined in this specification to ensure
 interoperability and substitutability across the Verifiable Credential
@@ -407,7 +407,7 @@ as an amalgam of a web browser, various code running in that browser, one or
 more web servers (in the case of cross-origin AJAX or remote embedded content),
 and the code running on that server. Each of those elements runs as different
 software packages in different configurations, each executing just part of the
-overall functionality of the component. For the sake of the VC API, each
+overall functionality of the component. For the sake of this API, each
 component satisfies all of its required functionality as a whole, regardless of
 deployment architecture.
       </p>
@@ -461,16 +461,16 @@ credentials under the control of the Holder, from Issuers to Verifiers. In
 several deployments this means exposing a user interface that gives individual
 Holders a visual way to authorize or Approve VC storage or transfer. Some
 functionality of the [=holder coordinator=] is commonly referred to as a wallet. In
-the VC API, the [=holder coordinator=] initiates all flows. They request VCs from
-Issuers. They decide if, and when, to share those VCs with Verifiers. Within the
-VC API, there is no way for either the Issuer or the Verifier to initiate a VC
+this API, the [=holder coordinator=] initiates all flows. They request VCs from
+Issuers. They decide if, and when, to share those VCs with Verifiers. Within this
+API, there is no way for either the Issuer or the Verifier to initiate a VC
 transfer. In many scenarios, the [=holder coordinator=] is expected to be under the
 control of an individual human, ensuring a person is directly involved in the
 communication of VCs, even if only at the step of authorizing the transfer.
 However, many VCs are about organizations, not individuals. How individuals
 using [=holder coordinator=]s related to organizations, and in particular, how
 organizational credentials are securely shared with, and presented by, (legal)
-agents of those organizations is not yet specified as in scope for the VC API.
+agents of those organizations is not yet specified as in scope for this API.
         </p>
       </section>
       <section>
@@ -479,12 +479,12 @@ agents of those organizations is not yet specified as in scope for the VC API.
 <strong>Issuer Service &bull; Verifier Service &bull; Holder Service </strong>
         </p>
         <p>
-Services provide generic VC API functionality, driven by its associated App.
+Services provide generic API functionality, driven by its associated App.
 Designed to enable infrastructure providers to offer VC capability through
 Software-as-a-Service. All services expose network endpoints to their authorized
 Coordinators, which are themselves operating on behalf of the associated role.
 Although deployed services MAY provide their own HTML interfaces, such
-interfaces are out of scope for the VC API. Only the network endpoints of
+interfaces are out of scope for this API. Only the network endpoints of
 services are defined herein.
         </p>
         <p>
@@ -492,7 +492,7 @@ The <dfn>issuer service</dfn> takes requests to issue VCs from authorized Issuer
 Coordinators and returns well-formed, signed VCs. This service MUST have access
 to private keys (or key services which utilize private keys) in order to create
 the proofs for those VCs. The API between the Issuer service and its associated
-cryptographic key management service is out of scope for the VC API.
+cryptographic key management service is out of scope for this API.
         </p>
         <p>
 The <dfn>verifier service</dfn> takes requests to verify Verifiable Credentials
@@ -540,7 +540,7 @@ directed by the Holder. In-browser retrieval of such stored credentials can
 enable web-based [=verifier coordinator=]s to integrate data from the Holder without
 sharing that data with the Verifier—the data is only ever present in the
 browser. Authorizing third-party remote access to Holder storage is likely
-in-scope for the VC API, although we expect this to be defined using extensible
+in-scope for this API, although we expect this to be defined using extensible
 mechanisms to support a variety of storage and authorization approaches.
         </p>
         <p>
@@ -573,7 +573,7 @@ of that configuration. Some components may use JSON files to drive a
 semi-automated Issuer. Others might expose HTML pages. We expect different
 Coordinators and Services to compete on the power, ease, and flexibility of
 their administration and therefore, as of this writing, we anticipate Admin
-functionality to be out of scope for the VC API. However, we actually believe
+functionality to be out of scope for this API. However, we actually believe
 that to the extent we can standardize configuration setting across
 implementations, the more substitutable each component.
         </p>
@@ -581,14 +581,14 @@ implementations, the more substitutable each component.
       <section>
         <h3>Summary</h3>
         <p>
-Based on this architectural thinking, we may want to frame the VC API as a
+Based on this architectural thinking, we may want to frame this API as a
 roadmap of related specifications, integrated in an extensible way for maximum
 substitutability. Several technologies, such as EDVs and WebKMSs would likely
 benefit from the crypto suite Approach taken for VC proofs. Defining a generic
 mechanism that can be realized by any functionally conformant technology enables
 flexibility while laying the groundwork with current existing functionality. In
 this way, we may be able to acknowledge that elements like Key Services,
-Storage, and Status are necessary parts of the VC API while deferring the
+Storage, and Status are necessary parts of this API while deferring the
 definition of how those elements work to specification already in development as
 well as those yet to be written.
         </p>
@@ -601,11 +601,11 @@ well as those yet to be written.
       <p>
       </p>
      <p>
-A conforming <dfn>VC API client</dfn> is ...
+A conforming <dfn>VCALM client</dfn> is ...
      </p>
 
       <p>
-A conforming <dfn>VC API server</dfn> is ...
+A conforming <dfn>VCALM server</dfn> is ...
       </p>
 
     </section>
@@ -621,7 +621,7 @@ A conforming <dfn>VC API server</dfn> is ...
   </section>
 
   <section>
-    <h2>The VC API</h2>
+    <h2>Endpoint Definitions</h2>
     <section>
       <h3>Base URL</h3>
       <p>
@@ -636,17 +636,17 @@ a path within that host (e.g.,
     <section>
       <h3>Authorization</h3>
       <p>
-The VC API can be deployed in a variety of networking environments which might
-contain hostile actors. As a result, conforming [=VC API servers=]
-require conforming [=VC API clients=] to utilize secure authorization
+This API can be deployed in a variety of networking environments which might
+contain hostile actors. As a result, conforming [=VCALM servers=]
+require conforming [=VCALM clients=] to utilize secure authorization
 technologies when performing certain types of requests. Each HTTP endpoint
 defined in this document specifies whether or not authorization is required when
 performing a request. With the exception of the class of forbidden authorization
-protocols discussed later in this section, the VC API is agnostic regarding
+protocols discussed later in this section, this API is agnostic regarding
 authorization mechanism.
       </p>
       <p>
-The VC API is meant to be generic and useful in many scenarios that require the
+This API is meant to be generic and useful in many scenarios that require the
 issuance, possession, presentation, and/or verification of Verifiable
 Credentials. To this end, implementers are advised to consider the following
 classifications of use cases:
@@ -675,7 +675,7 @@ has authenticated the holder/subject of the API interaction. These use cases
 include, but are not limited to, issuance of subject-specific identity claims
 directly to the subject in question, or verification of credentials to qualify
 the holder for service at the verifier, for example. Examples of methods to bind
-activity on one channel to a VC API call include <a
+activity on one channel to an API call include <a
 href="https://chapi.io/">CHAPI</a> (the
 <a href="https://chapi.io/">Credential Handler API</a>), OIDC (OpenID Connect),
 and GNAP (the Grant Negotiation and Authorization Protocol). Developers
@@ -694,7 +694,7 @@ non-standard or legacy authorization technologies.
       <section>
         <h4>Forbidden Authorization</h4>
         <p>
-Requests to the VC API MUST NOT utilize any authorization protocol that includes
+Requests to this API MUST NOT utilize any authorization protocol that includes
 long-lived static credentials such as usernames and passwords or similar values
 in those requests. An example of such a forbidden protocol is HTTP Basic
 Authentication [[RFC7617]].
@@ -765,7 +765,7 @@ interfaces.
          title="A coordinator can use multiple service instances">
 A coordinator instance can have access to multiple service instances in order to
 support different use cases or a use case with complex flows. Runtime discovery
-of service instance configuration is not supported by the VC API as services are
+of service instance configuration is not supported by this API as services are
 expected to be known by the coordinator at the time of coordinator deployment.
       </p>
     </section>
@@ -1611,7 +1611,7 @@ the exchange discovery endpoint.
     <section>
       <h3>Workflows and Exchanges</h3>
       <p>
-A VC API <dfn>workflow</dfn> defines a particular set of steps for exchanging
+A <dfn>workflow</dfn> defines a particular set of steps for exchanging
 verifiable credentials between two parties across a trust boundary. Each step
 can involve the issuance, verification, transmission, and/or presentation of
 verifiable credentials. Workflows are designed to support both linear sequences
@@ -1646,15 +1646,15 @@ credentials. The steps that define the workflow might also be templates,
 enabling additional flexibility. If a workflow involves the issuance of
 verifiable credentials, or the verification of presentations or credentials,
 then the workflow instance configuration can include authorization capabilities
-to use one or more VC API issuer and/or verification services.
+to use one or more issuer and/or verification services.
       </p>
       <p>
 Once a workflow instance exists, authorization to create and query particular
-workflow interactions, called VC API exchanges, can be given to coordinators.
+workflow interactions, called exchanges, can be given to coordinators.
       </p>
       <p>
-A VC API <dfn>exchange</dfn> represents a particular interaction based on a
-given VC API workflow. The interaction will take place between an exchange
+An <dfn>exchange</dfn> represents a particular interaction based on a
+given workflow. The interaction will take place between an exchange
 client and the workflow service. Exchanges are expected to be transitory, only
 existing as long as the interaction takes to complete. The workflow service
 stores state information about each exchange, such as whether the exchange is
@@ -1671,7 +1671,7 @@ the `/exchanges` subpath of a chosen workflow, on the workflow service. The
 HTTP request body includes an expiration date and time for the exchange and any
 variables to be used to populate the workflow's templates for the particular
 exchange. The request body can also include configuration options to enable the
-exchange to be executed using additional protocols beyond VC API. Once the
+exchange to be executed using additional protocols beyond this API. Once the
 exchange is created, an exchange URL that identifies the exchange and enables
 interaction with it is returned to the coordinator.
       </p>
@@ -1707,10 +1707,10 @@ URL with the client include the Credential Handler API (aka CHAPI), a QR
 code, or a universal link.
       </p>
       <p>
-VC API exchanges are designed to be executable using other protocols in
-addition to the VC API exchange protocol; for example, an exchange could
+Exchanges are designed to be executable using other protocols in
+addition to this API exchange protocol; for example, an exchange could
 potentially be executable with any of the OID4VCI, OID4VP, DIDComm, and
-VC API exchange protocols. The protocols supported depend on the complexity
+exchange protocols. The protocols supported depend on the complexity
 of the workflow the exchange is based on, and the options provided by the
 coordinator when the exchange was created.
       </p>
@@ -1718,16 +1718,16 @@ coordinator when the exchange was created.
 The exchange client is expected to initiate the exchange using a protocol that
 is compatible with how the client received the exchange URL. For example, the
 exchange URL could have been provided over CHAPI with a protocol identifier
-indicating that the VC API protocol ought to be used. Alternatively, the
+indicating that this API protocol ought to be used. Alternatively, the
 exchange URL could be included as the "credential_issuer" in an OID4VCI
 credential offer, or as the "client_id" of an OID4VP authorization request,
 indicating that OID4VCI or OID4VP, respectively, ought to be used. This section
-focuses on how an exchange client uses VC API to interact with the exchange; see
-<span class="issue">Appendix TBD</span> to see how to combine VC API exchanges
+focuses on how an exchange client uses this API to interact with the exchange; see
+<span class="issue">Appendix TBD</span> to see how to combine exchanges
 with other protocols such as OID4VCI, OID4VP, and DIDComm.
       </p>
       <p>
-Exchanges that are executed using the VC API protocol involve messages sent as
+Exchanges that are executed using this API protocol involve messages sent as
 request and response bodies over HTTP. Each message consists of a simple JSON
 object that includes zero or more of the following properties and values:
       </p>
@@ -1753,7 +1753,7 @@ Custom properties and values might also be included, but are expected to
 trigger errors in implementations that do not recognize them.
       </p>
       <p>
-To initiate an exchange using the VC API protocol, an exchange client
+To initiate an exchange using this API protocol, an exchange client
 performs an HTTP POST sending a JSON object as the request body. In the
 simplest case, when the client has no constraints of its own on the exchange
 &mdash; i.e., it has nothing to request from the other party &mdash; the
@@ -1786,7 +1786,7 @@ is not acceptable, it raises an error by responding with a `4xx` HTTP status
 message and a JSON object that expresses information about the error.
       </p>
       <p>
-The VC API exchange design approach is layered: it aims to provide a minimal
+The exchange design approach is layered: it aims to provide a minimal
 communication message layer and a set of primitives that enable most use cases
 to be implemented via specific verifiable presentation requests and verifiable
 credentials at a layer above. See the appendices that follow for examples of
@@ -1795,16 +1795,16 @@ verifiable credentials.
       </p>
       <span class="issue">These examples will be added later.</span>
       <p>
-A given interaction with a VC API exchange is expected to be short-lived but
+A given interaction with an exchange is expected to be short-lived but
 other mechanisms can be used to enable longer or multi-stage interactions.
 Examples of other interaction mechanisms include SMS, email, web notifications,
 or phone calls. This approach simplifies digital wallet implementation and
-allows existing mechanisms to be reused without reinvention within the VC API.
+allows existing mechanisms to be reused without reinvention within this API.
 The Web or native platforms are expected to enable additional interactions via
 applications (such as Web browsers) or other platform features. For example, in
 asynchronous issuance, a holder requests a credential but waits for processing.
-In such cases, VC API components (such as an issuer coordinator) make use of
-mechanisms outside the VC API to notify the holder when their credential is
+In such cases, system components (such as an issuer coordinator) make use of
+mechanisms outside this API to notify the holder when their credential is
 ready for collection.
       </p>
       <p>
@@ -2122,7 +2122,7 @@ approach is agnostic as to use case, application, and protocol. This approach
 can be used to pair two or more applications that desire to bootstrap into a
 particular protocol over any transmission medium &mdash; such as a web browser,
 QR Code (optical medium), or NFC (wireless medium) &mdash; where the protocol
-does not need to involve the VC API.
+does not need to involve this API.
       </p>
       <p>
 The sequence diagram below outlines an [=issuer=] generating an interaction
@@ -2147,7 +2147,7 @@ sequenceDiagram
   W->>I: Get available interaction protocols
   Note left of I: GET https://issuer.example/interactions/123?iuv=1
   I->>W: Return interaction protocols
-  Note left of I: (VC API, OID4, NFC, Bluetooth, etc.)
+  Note left of I: (VCALM, OID4VP, NFC, Bluetooth, etc.)
   W->>W: Select appropriate protocol
   opt "vcapi" protocol example
   W->>I: Initiate workflow exchange
@@ -2183,7 +2183,7 @@ sequenceDiagram
   W->>V: Get available interaction protocols
   Note left of V: GET https://verifier.example/interactions/123?iuv=1
   V->>W: Return interaction protocols
-  Note left of V: (VC API, OID4, NFC, Bluetooth, etc.)
+  Note left of V: (VCALM, OID4VP, NFC, Bluetooth, etc.)
   W->>H: Acquire consent to proceed
   Note right of H: verifier.example is requesting credentials, proceed?
   W->>W: Select appropriate protocol
@@ -2216,7 +2216,7 @@ sequenceDiagram
   V->>W: Get available interaction protocols
   Note left of V: GET https://wallet.example/interactions/456?iuv=1
   W->>V: Return interaction protocols
-  Note left of V: (VC API, OID4, NFC, Bluetooth, etc.)
+  Note left of V: (VCALM, OID4VP, NFC, Bluetooth, etc.)
   V->>V: Select appropriate protocol
   V->>W: Transmit protocol selection and options
   opt "website" protocol example
@@ -2236,7 +2236,7 @@ A holder-initiated interaction using a QR Code
         <p>
 The format of the <dfn>interaction URL</dfn> MUST conform to the syntax for the
 [[[URL]]] and contain an `iuv` query parameter encoding the interaction URL
-version number, which MUST be `1` when using this version of the VC API. The
+version number, which MUST be `1` when using this version of this API. The
 interaction URL SHOULD be an HTTPS URL that contains an interaction-specific
 identifier. The URL SHOULD be opaque and require no URL syntax processing before
 it is fetched by the receiving system. An example of such a URL is shown below:
