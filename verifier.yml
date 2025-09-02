@@ -23,7 +23,9 @@ paths:
        - oAuth2: []
        - zCap: []
       operationId: verifyCredential
-      x-expectedCaller: "Verification Coordinator"
+      x-expectedCaller:
+        - Workflow Service
+        - Verifier Coordinator
       description: Verifies a verifiableCredential and returns a verificationResult in the response body.
       requestBody:
         content:
@@ -52,25 +54,27 @@ paths:
        - oAuth2: []
        - zCap: []
       operationId: verifyPresentation
-      x-expectedCaller: "Verification Coordinator"
+      x-expectedCaller:
+        - Workflow Service
+        - Verifier Coordinator
       description: |
         Verifies a verifiablePresentation and, by default, all verifiable credentials
         contained within it.
-        
+
         The verification process includes verifying the presentation's own proof (including domain
-        and challenge validation, if provided); verifying each contained verifiable credential's proof, 
+        and challenge validation, if provided); verifying each contained verifiable credential's proof,
         status, and validity period(s); and checking that the holder in the presentation matches the
         verification method used in the presentation's proof.
-        
+
         Business rule validation (such as verifying that credential subjects match the presentation holder)
         is outside the scope of this verification endpoint and should be performed by the calling application.
 
-        The API is compositional: when credential verification is disabled or limited via 
-        implementation-specific options, individual credentials can be verified separately 
+        The API is compositional: when credential verification is disabled or limited via
+        implementation-specific options, individual credentials can be verified separately
         using the <code>/credentials/verify</code> endpoint.
-        
-        Given the possibility of denial of service, buffer overflow, or other attacks, an implementation 
-        is permitted to apply rate limits or otherwise restrict requests against this API endpoint 
+
+        Given the possibility of denial of service, buffer overflow, or other attacks, an implementation
+        is permitted to apply rate limits or otherwise restrict requests against this API endpoint
         as needed, using a <code>413</code>, <code>429</code>, or other response error code as appropriate.
       requestBody:
         content:
@@ -85,9 +89,9 @@ paths:
         "200":
           description: |
 
-            Verification process completed successfully. The response body contains detailed results 
-            indicating whether the presentation and its contained credentials passed or failed verification. 
-            A <code>200</code> status indicates the verification process itself succeeded, regardless of whether 
+            Verification process completed successfully. The response body contains detailed results
+            indicating whether the presentation and its contained credentials passed or failed verification.
+            A <code>200</code> status indicates the verification process itself succeeded, regardless of whether
             the presentation and/or credentials were determined to be valid or invalid.
           content:
             application/json:
@@ -95,8 +99,8 @@ paths:
                 $ref: "#/components/schemas/VerifyPresentationResponse"
         "400":
           description: |
-            Invalid or malformed input that prevented the verification process from being performed. 
-            This indicates issues with the request format, structure, or parameters, rather than 
+            Invalid or malformed input that prevented the verification process from being performed.
+            This indicates issues with the request format, structure, or parameters, rather than
             verification failures.
         "413":
           description: Payload too large
@@ -110,7 +114,9 @@ paths:
        - oAuth2: []
        - zCap: []
       operationId: challenge
-      x-expectedCaller: "Verification Coordinator"
+      x-expectedCaller:
+        - Workflow Service
+        - Verifier Coordinator
       description: Creates a challenge to be used as `options.challenge` in future requests.
       responses:
         "200":

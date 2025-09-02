@@ -23,7 +23,9 @@ paths:
         - oAuth2: []
         - zCap: []
       operationId: issueCredential
-      x-expectedCaller: "Issuer Coordinator"
+      x-expectedCaller:
+        - Workflow Service
+        - Issuer Coordinator
       description: Issues a credential and returns it in the response body.
       requestBody:
         content:
@@ -53,7 +55,8 @@ paths:
         - oAuth2: []
         - zCap: []
       operationId: updateCredentialStatus
-      x-expectedCaller: "Issuer Service"
+      x-expectedCaller:
+        - Issuer Coordinator
       description: Updates the status of an issued credential.
       requestBody:
         content:
