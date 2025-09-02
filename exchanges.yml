@@ -245,10 +245,10 @@ components:
           description: The step from the above set that the exchange starts on. Passing intialStep is REQUIRED.
         controller:
           type: string
-          description: The controller of the instance. Passing controller is OPTIONAL.
+          description: An OPTIONAL property that specifies the root controller of the instance, which can be used by systems supporting Authorization Capabilities (ZCAPs). This value can be used in conjunction with the <code>authorization</code> property to simultaneously allow other authorization mechanisms.
         authorization:
           type: object
-          description: Authorization scheme information (e.g., OAuth2 configuration). Passing authorization is OPTIONAL.
+          description: An OPTIONAL property that specifies authorization scheme information for the endpoint such as an OAuth2 configuration.
           properties:
             oauth2:
               type: object
@@ -437,7 +437,7 @@ components:
             - type: object
               description: An alternate presentation schema format to use when validating a presentation in the current step. Additional properties are expected for a specific presentation schema type, but are beyond the scope of this specification.
               properties:
-                types:
+                type:
                   type: string
                   description: The type of presentation schema mechanism to use when validating the presentation.
         verifyPresentationResponseSchema:
@@ -454,7 +454,7 @@ components:
             - type: object
               description: An alternate presentation schema format to use on the result of verifying a presentation in the current step. Additional properties are expected for a specific presentation schema type, but are beyond the scope of this specification.
               properties:
-                types:
+                type:
                   type: string
                   description: The type of presentation schema mechanism to use when validating the result of verifying the presentation.
         nextStep:
